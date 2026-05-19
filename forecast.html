@@ -128,8 +128,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: var(--char-accent); opacity: 0; transition: opacity 0.2s;
 }
-.char-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.char-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); border-color: var(--char-accent,var(--border)); }
 .char-card:hover::before { opacity: 1; }
+.char-card:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.char-card:active { transform: translateY(-2px); }
 .char-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
 .char-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 2px; }
 .char-role { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; }
@@ -723,7 +725,10 @@ function buildCharGrid() {
       <div class="char-stake">${c.stake}</div>
       <span class="char-difficulty ${c.diffClass}">Difficulty: ${c.diffLabel}</span>
     `;
+    card.setAttribute('role', 'listitem');
+    card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => selectChar(id));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectChar(id); } });
     grid.appendChild(card);
   });
 }
