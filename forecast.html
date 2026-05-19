@@ -285,6 +285,11 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     <div class="chapter-badge">Prologue — 2024</div>
     <div id="prologue-intro" class="char-intro-box"></div>
 
+    <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:12px;padding:22px 26px;margin-bottom:32px;">
+      <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">Thesis</div>
+      <p style="font-size:1.05rem;line-height:1.7;font-style:italic;color:var(--text);">By 2027–2030, AI will bifurcate the accounting and financial advisory industry: compliance-heavy commodity work will be largely automated, concentrating productivity gains in large firms and platforms. The advisory relationship becomes more valuable — but harder to access at the mid-tier. Without active policy, this dynamic reinforces market concentration and locks displaced junior accountants out of the transition.</p>
+    </div>
+
     <h2 class="sub-heading">The wave is already here.</h2>
     <p style="color:var(--text-muted);margin-bottom:22px;line-height:1.75;">In 2013, Oxford researchers Frey and Osborne assigned accountants and bookkeepers a <strong style="color:var(--accent)">94% probability of automation</strong> — the highest of any licensed profession. A decade later, the tools arrived. GPT-4-class models can draft tax returns, reconcile accounts, and sample audit populations faster than any junior accountant.<br><br>The question is no longer <em>whether</em> AI reshapes accounting. It's <em>how fast, who captures the gains, and who bears the cost.</em></p>
 
@@ -640,7 +645,8 @@ const ENDINGS = {
       priya: 'You kept your core finance team and covered 30% of their reskilling costs. Team costs are up marginally on the pure-AI alternative, but your team now handles 40% more work with AI support. You\'re not locked to any platform — when a competitor\'s pricing spiked, you had real alternatives. The board stopped asking about your team headcount.',
       marcus: 'Revenue at record highs. The open API mandate created genuine competition from mid-tier advisory firms with AI tools — but your brand, relationships, and specialisation in complex work held. The regulatory environment stayed manageable: you were consulted, your concerns were acknowledged, and the final framework was narrower than you feared. Strong outcome. A contested market, but a fair one.'
     },
-    econ: 'The upside scenario reflects the reinstated task framework operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. This is closer to the Autor et al. productivity-plus-reinstatement scenario than the so-so automation baseline. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption: where gains accumulate to platform incumbents rather than distributing through the market. The productivity effect was strong, and the policy environment ensured the reinstatement effect had the institutional infrastructure to operate.'
+    kpiTable: `<div class="chart-box" style="margin-top:20px"><p class="chart-title">Policy KPIs — Upside 2030 targets</p><table class="comparison-table"><thead><tr><th>KPI</th><th>Target</th><th>Baseline (no policy)</th></tr></thead><tbody><tr><td>Displaced workers re-employed at equivalent wage within 24 months</td><td style="color:var(--upside);font-weight:600">60%</td><td style="color:var(--text-muted)">~35%</td></tr><tr><td>Credential completions via reskilling fund (national)</td><td style="color:var(--upside);font-weight:600">48,000</td><td style="color:var(--text-muted)">~8,000 (self-funded)</td></tr><tr><td>Small practice market share vs 2024</td><td style="color:var(--upside);font-weight:600">Stable (±3%)</td><td style="color:var(--text-muted)">−25%</td></tr><tr><td>SME platform switching cost (data portability)</td><td style="color:var(--upside);font-weight:600">Reduced by open APIs</td><td style="color:var(--text-muted)">High — lock-in persists</td></tr></tbody></table></div>`,
+  econ: 'The upside scenario reflects the reinstated task framework operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. This is closer to the Autor et al. productivity-plus-reinstatement scenario than the so-so automation baseline. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption: where gains accumulate to platform incumbents rather than distributing through the market. The productivity effect was strong, and the policy environment ensured the reinstatement effect had the institutional infrastructure to operate.'
   },
   baseline: {
     key: 'baseline', title: 'Baseline 2030', cssClass: 'ending-baseline', colorVar: 'var(--baseline)',
@@ -893,6 +899,7 @@ function renderEnding() {
       </ul>
     </div>
 
+    ${e.kpiTable || ''}
     <span class="section-label" style="margin-top:32px;display:block">All three worlds — side by side (◀ = your path)</span>
     <div class="chart-box" style="overflow-x:auto;padding:20px">
       <table class="comparison-table">
