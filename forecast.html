@@ -54,6 +54,28 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
   text-transform: uppercase; padding: 5px 14px; border-radius: 5px; margin-bottom: 24px;
 }
 
+/* ── CHARACTER CONTEXT BAR ── */
+.char-bar {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 16px; margin-bottom: 28px;
+  font-size: 0.84rem;
+}
+.char-bar-icon { font-size: 1.3rem; flex-shrink: 0; }
+.char-bar-name { font-weight: 700; }
+.char-bar-role { color: var(--text-muted); }
+.char-bar-score { margin-left: auto; font-size: 0.78rem; color: var(--text-muted); flex-shrink: 0; }
+.char-bar-score span { color: var(--accent); font-weight: 700; }
+
+/* ── ECONOMIC CALLOUT ── */
+.econ-callout {
+  background: var(--surface2); border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 20px 0;
+  font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;
+}
+.econ-callout strong { color: var(--text); }
+.econ-callout cite { font-style: italic; color: var(--accent); }
+
 /* ── PROGRESS ── */
 .progress-bar { display: flex; gap: 8px; margin-bottom: 40px; }
 .progress-step { height: 3px; flex: 1; background: var(--border); border-radius: 2px; transition: background 0.3s; }
@@ -285,6 +307,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
       <div class="progress-step"></div>
       <div class="progress-step"></div>
     </div>
+    <div id="ch1-charbar" class="char-bar"></div>
     <div class="chapter-badge">Chapter 1 — The Adoption Wave</div>
 
     <div class="stat-row">
@@ -293,6 +316,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     </div>
 
     <div class="narrative-box" id="ch1-narrative"></div>
+
+    <div class="econ-callout"><strong>Economic mechanism:</strong> Acemoglu &amp; Restrepo (2019) distinguish <em>good automation</em> — which creates sufficient new tasks to offset displacement — from <cite>so-so automation</cite>, which substitutes labour without generating the reinstatement effect. Government adoption incentives accelerate the automation side. Whether reinstatement follows depends on complementary investment in skills and competition.</div>
 
     <div class="chart-box">
       <p class="chart-title">AI capability adoption in accounting software — 2018 to 2024</p>
@@ -318,6 +343,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
       <div class="progress-step current"></div>
       <div class="progress-step"></div>
     </div>
+    <div id="ch2-charbar" class="char-bar"></div>
     <div class="chapter-badge">Chapter 2 — The Displacement</div>
 
     <div class="stat-row">
@@ -326,6 +352,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     </div>
 
     <div class="narrative-box" id="ch2-narrative"></div>
+
+    <div class="econ-callout"><strong>Economic mechanism:</strong> Autor, Levy &amp; Murnane (2003) showed that automation targets <em>routine</em> cognitive tasks — those sufficiently codifiable to be replicated algorithmically — rather than entire occupations. Bookkeepers and junior accountants spend 70–90% of their time on such tasks. Senior advisors spend the majority of their time on judgment-intensive, non-routine work. Displacement is therefore within the profession, not of it — but the distribution matters enormously.</div>
 
     <div class="chart-box">
       <p class="chart-title">Projected employment by accounting role — 2024 to 2030 <span id="ch2-chart-label" style="color:var(--accent);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0">(based on Chapter 1 choice)</span></p>
@@ -351,6 +379,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
       <div class="progress-step done"></div>
       <div class="progress-step current"></div>
     </div>
+    <div id="ch3-charbar" class="char-bar"></div>
     <div class="chapter-badge">Chapter 3 — The Concentration Problem</div>
 
     <div class="stat-row">
@@ -359,6 +388,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     </div>
 
     <div class="narrative-box" id="ch3-narrative"></div>
+
+    <div class="econ-callout"><strong>Economic mechanism:</strong> AI-driven markets exhibit strong <em>data network effects</em> — platforms with more users generate more training data, producing better AI, attracting more users. This creates winner-takes-most dynamics. Acemoglu &amp; Restrepo (2018) argue that firms with large proprietary datasets hold a durable structural advantage that competes on terms no regulatory framework has yet fully addressed. The accounting software market is a textbook case.</div>
 
     <div class="chart-box">
       <p class="chart-title">Accounting industry market share — 2024 vs projected 2030 scenarios</p>
@@ -718,6 +749,18 @@ function renderCh3() {
   buildChoices('ch3-choices', [CH3.choiceA, CH3.choiceB], (choice) => makeChoice(3, choice));
 }
 
+function populateCharBar(barId) {
+  const el = document.getElementById(barId);
+  if (!el || !state.character) return;
+  const c = CHARS[state.character];
+  const choices = [state.ch1, state.ch2, state.ch3].filter(Boolean);
+  el.innerHTML = `
+    <span class="char-bar-icon">${c.icon}</span>
+    <div><span class="char-bar-name" style="color:${c.accent}">${c.name}</span> <span class="char-bar-role">— ${c.role}</span></div>
+    <div class="char-bar-score">Policy score: <span>${state.score}</span>/3</div>
+  `;
+}
+
 function buildChoices(containerId, choices, onSelect) {
   const el = document.getElementById(containerId);
   el.innerHTML = '';
@@ -743,9 +786,9 @@ function makeChoice(chapter, choice) {
 
 function showChapter(num) {
   showScreen(`screen-ch${num}`);
-  if (num === 1) { renderCh1(); buildTimelineChart(); }
-  if (num === 2) { renderCh2(); buildEmploymentChart(); }
-  if (num === 3) { renderCh3(); buildMarketChart(); }
+  if (num === 1) { populateCharBar('ch1-charbar'); renderCh1(); buildTimelineChart(); }
+  if (num === 2) { populateCharBar('ch2-charbar'); renderCh2(); buildEmploymentChart(); }
+  if (num === 3) { populateCharBar('ch3-charbar'); renderCh3(); buildMarketChart(); }
 }
 
 // ═══ ENDING ══════════════════════════════════════════════════════════════════
