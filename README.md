@@ -2,7 +2,7 @@
 
 **ECON1626 — Economics of Artificial Intelligence | Assessment 3**  
 **Author:** Jackson Gill  
-**Live site:** [GitHub Pages link — added after deployment]
+**Live site:** [https://jacksonrgill.github.io/econ1626-ai-future-forecast/forecast.html](https://jacksonrgill.github.io/econ1626-ai-future-forecast/forecast.html)
 
 ---
 
