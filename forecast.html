@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="An interactive choose-your-adventure forecast of how AI will reshape the accounting and financial advisory industry by 2030. ECON1626 Assessment 3.">
 <meta property="og:title" content="The Accounting Industry 2030 — AI Forecast">
-<meta property="og:description" content="Choose your character. Navigate three policy decisions. Discover your 2030 world.">
+<meta property="og:description" content="Choose your character. Navigate three decisions. Discover your 2030 world.">
 <title>The Accounting Industry 2030 — An Interactive Forecast</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,289 +26,152 @@
 }
 
 html { scroll-behavior: smooth; }
-body {
-  font-family: var(--font); background: var(--bg); color: var(--text);
-  min-height: 100vh; line-height: 1.6;
-  transition: padding-right 0.35s ease;
-}
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; transition: padding-right 0.35s ease; }
 
-/* ── STORY SECTIONS ── */
 .story-section { display: none; }
 .story-section.revealed { display: block; animation: sectionReveal 0.5s ease both; }
 #sec-character-select { display: block; }
 
-@keyframes sectionReveal {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes sectionReveal { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
 .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 .page { padding: 64px 0 72px; }
 
-/* ── TYPOGRAPHY ── */
-.eyebrow {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: block;
-}
-.big-heading {
-  font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 800;
-  line-height: 1.08; margin-bottom: 20px;
-}
+.eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: block; }
+.big-heading { font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 800; line-height: 1.08; margin-bottom: 20px; }
 .sub-heading { font-size: 1.2rem; font-weight: 700; margin-bottom: 10px; }
 .lead { font-size: 1.05rem; color: var(--text-muted); max-width: 640px; margin-bottom: 32px; line-height: 1.7; }
-.section-label {
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: block;
-}
-.chapter-badge {
-  display: inline-block; background: var(--accent-dim); border: 1px solid var(--accent);
-  color: var(--accent); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; padding: 5px 14px; border-radius: 5px; margin-bottom: 24px;
-}
+.section-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: block; }
+.chapter-badge { display: inline-block; background: var(--accent-dim); border: 1px solid var(--accent); color: var(--accent); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 5px; margin-bottom: 24px; }
 
-/* ── CHARACTER CONTEXT BAR ── */
-.char-bar {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 10px 16px; margin-bottom: 28px; font-size: 0.84rem;
-}
+.char-bar { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; margin-bottom: 28px; font-size: 0.84rem; }
 .char-bar-icon { font-size: 1.3rem; flex-shrink: 0; }
 .char-bar-name { font-weight: 700; }
 .char-bar-role { color: var(--text-muted); }
 .char-bar-score { margin-left: auto; font-size: 0.78rem; color: var(--text-muted); flex-shrink: 0; }
 .char-bar-score span { color: var(--accent); font-weight: 700; }
 
-/* ── ECONOMIC CALLOUT ── */
-.econ-callout {
-  background: var(--surface2); border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 20px 0;
-  font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;
-}
+.econ-callout { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 20px 0; font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
 .econ-callout strong { color: var(--text); }
 .econ-callout cite { font-style: italic; color: var(--accent); }
 
-/* ── PROGRESS ── */
 .progress-bar { display: flex; gap: 8px; margin-bottom: 40px; }
 .progress-step { height: 3px; flex: 1; background: var(--border); border-radius: 2px; transition: background 0.3s; }
 .progress-step.done { background: var(--accent); }
 .progress-step.current { background: var(--accent); opacity: 0.45; }
 
-/* ── STATS ── */
 .stat-row { display: flex; gap: 14px; flex-wrap: wrap; margin: 24px 0; }
-.stat-card {
-  background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
-  padding: 18px 20px; flex: 1; min-width: 140px;
-}
+.stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; flex: 1; min-width: 140px; }
 .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 5px; }
 .stat-label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
 
-/* ── CHARTS ── */
-.chart-box {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 24px; margin: 28px 0;
-}
-.chart-title {
-  font-size: 0.78rem; font-weight: 700; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px;
-}
+.chart-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 28px 0; }
+.chart-title { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 18px; }
 .chart-source { font-size: 0.72rem; color: var(--text-muted); margin-top: 10px; }
 
-.narrative-box {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  padding: 28px; margin-bottom: 28px; font-size: 0.98rem; line-height: 1.78; color: var(--text-muted);
-}
+.narrative-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 28px; font-size: 0.98rem; line-height: 1.78; color: var(--text-muted); }
 .narrative-box p { color: var(--text-muted); }
 .narrative-box p + p { margin-top: 12px; }
 .narrative-box strong { color: var(--text); }
 .narrative-box em { color: var(--accent); font-style: italic; }
 
-/* ── CHARACTER SELECT ── */
 .hero-wrap { border-bottom: 1px solid var(--border); padding-bottom: 48px; margin-bottom: 48px; }
 .char-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.char-card {
-  background: var(--surface); border: 2px solid var(--border); border-radius: 14px;
-  padding: 26px; cursor: pointer;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  position: relative; overflow: hidden;
-}
-.char-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--char-accent); opacity: 0; transition: opacity 0.2s;
-}
+.char-card { background: var(--surface); border: 2px solid var(--border); border-radius: 14px; padding: 26px; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; position: relative; overflow: hidden; }
+.char-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--char-accent); opacity: 0; transition: opacity 0.2s; }
 .char-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); border-color: var(--char-accent,var(--border)); }
 .char-card:hover::before { opacity: 1; }
 .char-card:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-.char-card:active { transform: translateY(-2px); }
 .char-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
 .char-name { font-size: 1.3rem; font-weight: 800; margin-bottom: 2px; }
 .char-role { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; }
 .char-firm { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; }
 .char-stake { font-size: 0.9rem; font-style: italic; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 14px; margin-bottom: 16px; }
-.char-perspective {
-  display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-  text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
-  border: 1px solid var(--border); color: var(--text-muted); background: var(--surface2);
-}
+.char-perspective { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); background: var(--surface2); }
 
-/* ── PROLOGUE CHAR INTRO ── */
-.char-intro-box {
-  display: flex; gap: 18px; align-items: flex-start;
-  background: var(--surface); border-left: 4px solid var(--accent);
-  border-radius: 0 12px 12px 0; padding: 22px 26px; margin-bottom: 36px;
-}
+.char-intro-box { display: flex; gap: 18px; align-items: flex-start; background: var(--surface); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; padding: 22px 26px; margin-bottom: 36px; }
 .char-intro-icon { font-size: 2.2rem; flex-shrink: 0; }
 .char-intro-name { font-weight: 700; margin-bottom: 5px; font-size: 1.05rem; }
 .char-intro-bio { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 8px; }
 .char-intro-note { font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
 
-/* ── CHOICES ── */
 .question-heading { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
 .question-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 22px; }
 .choices { display: grid; gap: 12px; }
-
-.choice-btn {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
-  padding: 22px 26px; cursor: pointer; text-align: left;
-  transition: border-color 0.18s, background 0.18s, transform 0.12s, opacity 0.2s;
-  color: var(--text); font-family: var(--font); width: 100%;
-}
+.choice-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 22px 26px; cursor: pointer; text-align: left; transition: border-color 0.18s, background 0.18s, transform 0.12s, opacity 0.2s; color: var(--text); font-family: var(--font); width: 100%; }
 .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-dim); transform: translateX(5px); }
 .choice-btn:active:not(:disabled) { transform: translateX(2px); }
 .choice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
 .choice-text { font-size: 1rem; font-weight: 600; margin-bottom: 5px; }
 .choice-sub { font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
-
-/* choice lock-in states */
-.choice-btn.choice-chosen {
-  border-color: var(--accent); background: var(--accent-dim); cursor: default;
-}
+.choice-btn.choice-chosen { border-color: var(--accent); background: var(--accent-dim); cursor: default; }
 .choice-btn.choice-chosen .choice-label::after { content: ' — CHOSEN ✓'; }
 .choice-btn.choice-rejected { opacity: 0.25; cursor: default; }
 .choice-btn:disabled { pointer-events: none; }
-
-.continue-hint {
-  text-align: center; margin-top: 20px; padding: 12px 16px;
-  font-size: 0.84rem; color: var(--text-muted);
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  animation: bob 1.8s ease-in-out infinite;
-}
+.continue-hint { text-align: center; margin-top: 20px; padding: 12px 16px; font-size: 0.84rem; color: var(--text-muted); animation: bob 1.8s ease-in-out infinite; }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
-/* ── MACRO DASHBOARD (fixed panel) ── */
-#macro-dash {
-  position: fixed;
-  top: 72px;
-  right: 16px;
-  width: 200px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  z-index: 200;
-  font-size: 0.78rem;
-  display: none;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-}
-
-/* Show dashboard and add body padding on wide screens when story is active */
-@media (min-width: 1120px) {
-  body.story-active { padding-right: 224px; }
-  body.story-active #macro-dash { display: block; }
-}
-
-.md-hdr {
-  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
-}
-.md-char-block {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
-  min-height: 32px;
-}
+/* ── MACRO DASHBOARD ── */
+#macro-dash { position: fixed; top: 72px; right: 16px; width: 200px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; z-index: 200; font-size: 0.78rem; display: none; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+@media (min-width: 1120px) { body.story-active { padding-right: 224px; } body.story-active #macro-dash { display: block; } }
+.md-hdr { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.md-char-block { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; min-height: 32px; }
 .md-char-icon { font-size: 1.4rem; flex-shrink: 0; }
 .md-char-name { font-weight: 700; font-size: 0.85rem; line-height: 1.2; }
 .md-char-persp { font-size: 0.68rem; color: var(--text-muted); }
 .md-rule { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
 .md-section-lbl { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
-
-.md-ch-row {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 7px; gap: 6px;
-}
-.md-ch-tag {
-  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--accent); flex-shrink: 0; padding-top: 1px;
-}
+.md-ch-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 7px; gap: 6px; }
+.md-ch-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); flex-shrink: 0; padding-top: 1px; }
 .md-ch-val { font-size: 0.74rem; color: var(--text-muted); text-align: right; line-height: 1.3; }
 .md-ch-val.done { color: var(--text); }
-
 .md-score-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .md-score-num { font-size: 1.4rem; font-weight: 800; color: var(--accent); line-height: 1; }
 .md-score-denom { font-size: 0.72rem; color: var(--text-muted); }
 .md-dots { display: flex; gap: 5px; margin-top: 6px; }
 .md-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
 .md-dot.active { background: var(--accent); }
-
-.md-traj {
-  font-size: 0.9rem; font-weight: 800; padding: 8px 10px;
-  border-radius: 7px; text-align: center; margin: 4px 0; transition: all 0.4s;
-  background: var(--surface2);
-}
-
+.md-traj { font-size: 0.9rem; font-weight: 800; padding: 8px 10px; border-radius: 7px; text-align: center; margin: 4px 0; background: var(--surface2); transition: all 0.4s; }
 .md-metric { margin-top: 10px; }
 .md-metric-val { font-size: 1.3rem; font-weight: 800; line-height: 1; color: var(--accent); transition: all 0.4s; }
 .md-metric-lbl { font-size: 0.67rem; color: var(--text-muted); line-height: 1.35; margin-top: 2px; }
 
 /* ── ENDING ── */
-.ending-banner {
-  text-align: center; padding: 52px 28px; border-radius: 18px;
-  margin-bottom: 44px; border: 2px solid;
-}
+.ending-banner { text-align: center; padding: 52px 28px; border-radius: 18px; margin-bottom: 44px; border: 2px solid; }
 .ending-upside  { border-color: var(--upside);  background: rgba(16,185,129,0.06); }
 .ending-baseline{ border-color: var(--baseline); background: rgba(59,130,246,0.06); }
 .ending-downside{ border-color: var(--downside); background: rgba(239,68,68,0.06); }
 .ending-year { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
 .ending-title { font-size: clamp(2rem,5vw,3rem); font-weight: 800; margin-bottom: 18px; }
 .ending-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
-
 .outcome-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
 .outcome-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
 .outcome-card-title { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
 .outcome-card-value { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; line-height: 1; }
 .outcome-card-note { font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
-
-.char-outcome-box {
-  background: var(--surface2); border-radius: 12px; padding: 24px;
-  margin: 20px 0; border-left: 4px solid var(--accent);
-  font-size: 0.95rem; color: var(--text-muted); line-height: 1.7;
-}
-
+.char-outcome-box { background: var(--surface2); border-radius: 12px; padding: 24px; margin: 20px 0; border-left: 4px solid var(--accent); font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; }
 .score-summary { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .score-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 0.88rem; gap: 12px; }
 .score-row:last-child { border-bottom: none; font-weight: 700; }
 .score-choice { color: var(--text-muted); flex: 1; }
 .score-pts-good { color: var(--upside); font-weight: 700; flex-shrink: 0; }
 .score-pts-bad  { color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
-
 .econ-explainer { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 26px; margin: 20px 0; }
 .econ-explainer h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 18px; }
 .mechanism-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
 .mechanism-list li { padding-left: 16px; border-left: 2px solid var(--border); font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
 .mechanism-list li strong { color: var(--text); }
-
 .comparison-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
 .comparison-table th { padding: 10px 14px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); border-bottom: 1px solid var(--border); text-align: left; }
 .comparison-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.4; }
 .comparison-table tr:last-child td { border-bottom: none; }
-.current-ending td { font-weight: 700; }
 
-/* ── BUTTONS ── */
 .btn { display: inline-block; padding: 13px 26px; border-radius: 9px; font-family: var(--font); font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: opacity 0.18s, transform 0.1s; border: none; text-decoration: none; }
 .btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn-primary { background: var(--accent); color: #000; }
 .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
 
-/* ── METHODS / REFERENCES ── */
 .divider { border: none; border-top: 1px solid var(--border); margin: 44px 0; }
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .source-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
@@ -316,7 +179,6 @@ body {
 .source-list li cite { font-style: normal; color: var(--text); font-weight: 600; }
 .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 
-/* ── RESPONSIVE ── */
 @media (max-width: 620px) {
   .char-grid { grid-template-columns: 1fr; }
   .outcome-grid { grid-template-columns: 1fr; }
@@ -326,29 +188,22 @@ body {
   .big-heading { font-size: 2rem; }
   .char-intro-box { flex-direction: column; gap: 10px; }
   .page { padding: 40px 0 64px; }
-  .chart-box { padding: 16px; }
-  .narrative-box { padding: 18px; }
   .char-bar { flex-wrap: wrap; }
   .char-bar-score { width: 100%; margin-left: 0; margin-top: 4px; }
   .score-row { flex-wrap: wrap; gap: 4px; }
   .score-choice { width: 100%; }
   .ending-banner { padding: 32px 18px; }
   .comparison-table { font-size: 0.78rem; }
-  .comparison-table th, .comparison-table td { padding: 8px 8px; }
+  .comparison-table th, .comparison-table td { padding: 8px; }
 }
-@media (min-width: 621px) and (max-width: 860px) {
-  .char-grid { grid-template-columns: 1fr 1fr; }
-}
+@media (min-width: 621px) and (max-width: 860px) { .char-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════════════════
-     MACRO DASHBOARD — fixed panel, appears once story begins
-════════════════════════════════════════════════════════════ -->
-<div id="macro-dash" aria-label="Live policy tracker">
+<!-- MACRO DASHBOARD -->
+<div id="macro-dash" aria-label="Live decision tracker">
   <div class="md-hdr">2030 Trajectory</div>
-
   <div class="md-char-block">
     <div class="md-char-icon" id="md-icon">—</div>
     <div>
@@ -356,245 +211,150 @@ body {
       <div class="md-char-persp" id="md-persp"></div>
     </div>
   </div>
-
   <hr class="md-rule">
-  <div class="md-section-lbl">Policy choices</div>
-  <div class="md-ch-row">
-    <span class="md-ch-tag">Ch 1</span>
-    <span class="md-ch-val" id="md-ch1-val">Pending…</span>
-  </div>
-  <div class="md-ch-row">
-    <span class="md-ch-tag">Ch 2</span>
-    <span class="md-ch-val" id="md-ch2-val">Pending…</span>
-  </div>
-  <div class="md-ch-row">
-    <span class="md-ch-tag">Ch 3</span>
-    <span class="md-ch-val" id="md-ch3-val">Pending…</span>
-  </div>
-
+  <div class="md-section-lbl">Decisions</div>
+  <div class="md-ch-row"><span class="md-ch-tag">Ch 1</span><span class="md-ch-val" id="md-ch1-val">Pending…</span></div>
+  <div class="md-ch-row"><span class="md-ch-tag">Ch 2</span><span class="md-ch-val" id="md-ch2-val">Pending…</span></div>
+  <div class="md-ch-row"><span class="md-ch-tag">Ch 3</span><span class="md-ch-val" id="md-ch3-val">Pending…</span></div>
   <hr class="md-rule">
   <div class="md-section-lbl" style="margin-bottom:4px">Policy score</div>
   <div class="md-score-row">
-    <div>
-      <span class="md-score-num" id="md-score-num">0</span>
-      <span class="md-score-denom"> / 3</span>
-    </div>
-    <div class="md-dots">
-      <div class="md-dot" id="md-d1"></div>
-      <div class="md-dot" id="md-d2"></div>
-      <div class="md-dot" id="md-d3"></div>
-    </div>
+    <div><span class="md-score-num" id="md-score-num">0</span><span class="md-score-denom"> / 3</span></div>
+    <div class="md-dots"><div class="md-dot" id="md-d1"></div><div class="md-dot" id="md-d2"></div><div class="md-dot" id="md-d3"></div></div>
   </div>
-
   <hr class="md-rule">
   <div class="md-traj" id="md-traj" style="color:var(--text-muted)">— In progress</div>
-
   <hr class="md-rule">
   <div class="md-section-lbl">Projected 2030</div>
-  <div class="md-metric">
-    <div class="md-metric-val" id="md-disp">—</div>
-    <div class="md-metric-lbl">Bookkeeper displacement</div>
-  </div>
-  <div class="md-metric">
-    <div class="md-metric-val" id="md-conc">—</div>
-    <div class="md-metric-lbl">Platform concentration</div>
-  </div>
+  <div class="md-metric"><div class="md-metric-val" id="md-disp">—</div><div class="md-metric-lbl">Bookkeeper displacement</div></div>
+  <div class="md-metric"><div class="md-metric-val" id="md-conc">—</div><div class="md-metric-lbl">Platform concentration</div></div>
 </div>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 1 — CHARACTER SELECT
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 1: CHARACTER SELECT -->
 <section id="sec-character-select">
   <div class="container page">
     <div class="hero-wrap">
       <span class="eyebrow">ECON1626 — Economics of Artificial Intelligence | Interactive Forecast</span>
       <h1 class="big-heading">The Accounting Industry<br><span style="color:var(--accent)">2030</span></h1>
-      <p class="lead">AI is reshaping one of the most routine-task-heavy professions on earth. What happens next depends on choices no one has fully made yet. <strong style="color:var(--text)">Choose your position — then decide the future.</strong></p>
-      <p style="font-size:0.85rem;color:var(--text-muted);">Navigate three real policy decisions. Your choices accumulate to determine one of three possible 2030 worlds — and what happens to the person you choose to be.</p>
+      <p class="lead">AI is reshaping one of the most routine-task-heavy professions on earth. What happens next depends on choices no one has fully made yet. <strong style="color:var(--text)">Choose your position — then navigate the future.</strong></p>
+      <p style="font-size:0.85rem;color:var(--text-muted);">Each character faces different decisions at a different scale: a career, a business, an economy. Your choices determine which of three possible 2030 worlds you reach.</p>
     </div>
     <span class="section-label">Choose your character</span>
     <div class="char-grid" id="char-grid" role="list" aria-label="Choose your character"></div>
-    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:28px;">Three perspectives on the same industry crisis — the worker inside it, the regulator shaping it, and the business deciding whether to accelerate it.</p>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:28px;">Three perspectives on the same industry crisis — the worker inside it, the business deciding whether to accelerate it, and the regulator shaping it at scale.</p>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 2 — PROLOGUE
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 2: PROLOGUE -->
 <section id="sec-prologue" class="story-section">
   <div class="container page">
     <div class="progress-bar">
-      <div class="progress-step done"></div>
-      <div class="progress-step current"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
+      <div class="progress-step done"></div><div class="progress-step current"></div><div class="progress-step"></div><div class="progress-step"></div><div class="progress-step"></div>
     </div>
     <div class="chapter-badge">Prologue — 2024</div>
     <div id="prologue-intro" class="char-intro-box"></div>
-
     <div style="background:var(--accent-dim);border:1px solid var(--accent);border-radius:12px;padding:22px 26px;margin-bottom:32px;">
       <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;">Thesis</div>
-      <p style="font-size:1.05rem;line-height:1.7;font-style:italic;color:var(--text);">By 2027–2030, AI will bifurcate the accounting and financial advisory industry: compliance-heavy commodity work will be largely automated, concentrating productivity gains in large firms and platforms. The advisory relationship becomes more valuable — but harder to access at the mid-tier. Without active policy, this dynamic reinforces market concentration and locks displaced junior accountants out of the transition.</p>
+      <p style="font-size:1.05rem;line-height:1.7;font-style:italic;color:var(--text);">By 2027–2030, AI will bifurcate the accounting and financial advisory industry: compliance-heavy commodity work will be largely automated, concentrating productivity gains in large firms and platforms. The advisory relationship becomes more valuable — but harder to access at the mid-tier. Without active policy, this reinforces market concentration and locks displaced junior accountants out of the transition.</p>
     </div>
-
     <h2 class="sub-heading">The wave is already here.</h2>
-    <p style="color:var(--text-muted);margin-bottom:22px;line-height:1.75;">In 2013, Oxford researchers Frey and Osborne assigned accountants and bookkeepers a <strong style="color:var(--accent)">94% probability of automation</strong> — the highest of any licensed profession. A decade later, the tools arrived. GPT-4-class models can draft tax returns, reconcile accounts, and sample audit populations faster than any junior accountant.<br><br>The question is no longer <em>whether</em> AI reshapes accounting. It's <em>how fast, who captures the gains, and who bears the cost.</em></p>
-
+    <p style="color:var(--text-muted);margin-bottom:22px;line-height:1.75;">In 2013, Oxford researchers Frey and Osborne assigned accountants and bookkeepers a <strong style="color:var(--accent)">94% probability of automation</strong> — the highest of any licensed profession. A decade later, the tools arrived. GPT-4-class models can draft tax returns, reconcile accounts, and sample audit populations faster than any junior accountant. The question is no longer <em>whether</em> AI reshapes accounting — it's how fast, who captures the gains, and who bears the cost.</p>
     <div class="stat-row">
       <div class="stat-card"><div class="stat-value">94%</div><div class="stat-label">Automation probability for accounting tasks — highest of any licensed profession (Frey &amp; Osborne, 2013)</div></div>
       <div class="stat-card"><div class="stat-value">27%</div><div class="stat-label">of accounting jobs face significant task change by 2030 (OECD, 2023)</div></div>
       <div class="stat-card"><div class="stat-value">$4.4T</div><div class="stat-label">projected global productivity gains from generative AI in professional services (McKinsey, 2023)</div></div>
     </div>
-
     <div class="chart-box">
       <p class="chart-title">Automation probability by accounting sub-task — 2024</p>
       <canvas id="chart-tasks" height="320"></canvas>
       <p class="chart-source">Sources: Frey &amp; Osborne (2013); McKinsey Global Institute (2023); ACCA (2019). Red = high automation risk. Green = low.</p>
     </div>
-
-    <p style="color:var(--text-muted);margin-bottom:36px;line-height:1.75;">Notice the gradient: <strong style="color:var(--text)">routine, codifiable tasks</strong> — data entry, payroll, basic tax returns — face near-total automation. <strong style="color:var(--text)">Judgment-intensive advisory work</strong> — complex due diligence, dispute representation — remains far harder to replicate. This is the task framework of Autor, Levy &amp; Murnane (2003) playing out in real time. Not all accountants face the same future. <strong style="color:var(--text)">You are about to help shape it.</strong></p>
-
-    <p style="margin-bottom:32px;font-size:0.95rem;color:var(--text-muted);">Three decision points ahead. Each presents a real policy challenge. Your choices accumulate into a policy score that determines your 2030 world.</p>
-
+    <p style="color:var(--text-muted);margin-bottom:36px;line-height:1.75;"><strong style="color:var(--text)">Routine, codifiable tasks</strong> — data entry, payroll, basic tax returns — face near-total automation. <strong style="color:var(--text)">Judgment-intensive advisory work</strong> — complex due diligence, dispute representation — remains far harder to replicate. This is the task framework of Autor, Levy &amp; Murnane (2003) playing out in real time. The story plays out differently depending on where you sit. <strong style="color:var(--text)">You are about to navigate it.</strong></p>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="showChapter(1)">Begin Chapter 1 →</button>
+      <button class="btn btn-primary" onclick="showChapter(1)">Begin →</button>
       <button class="btn btn-secondary" onclick="restart()">← Change character</button>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 3 — CHAPTER 1: THE ADOPTION WAVE
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 3: CHAPTER 1 -->
 <section id="sec-ch1" class="story-section">
   <div class="container page">
     <div class="progress-bar">
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step current"></div>
-      <div class="progress-step"></div>
-      <div class="progress-step"></div>
+      <div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step current"></div><div class="progress-step"></div><div class="progress-step"></div>
     </div>
     <div id="ch1-charbar" class="char-bar"></div>
-    <div class="chapter-badge">Chapter 1 — The Adoption Wave</div>
-
-    <div class="stat-row">
-      <div class="stat-card"><div class="stat-value">74%</div><div class="stat-label">of Australian SMEs now use cloud accounting software — Xero, QuickBooks, MYOB (IBISWorld, 2024)</div></div>
-      <div class="stat-card"><div class="stat-value">3×</div><div class="stat-label">faster financial document processing with AI-enabled audit tools vs manual review (Deloitte, 2023)</div></div>
-    </div>
-
+    <div class="chapter-badge" id="ch1-badge"></div>
+    <div class="stat-row" id="ch1-stats"></div>
     <div class="narrative-box" id="ch1-narrative"></div>
-
-    <div class="econ-callout"><strong>Economic mechanism:</strong> Acemoglu &amp; Restrepo (2019) distinguish <em>good automation</em> — which creates sufficient new tasks to offset displacement — from <cite>so-so automation</cite>, which substitutes labour without generating the reinstatement effect. Government adoption incentives accelerate the automation side. Whether reinstatement follows depends on complementary investment in skills and competition.</div>
-
-    <div class="chart-box">
-      <p class="chart-title">AI capability adoption in accounting software — 2018 to 2024</p>
+    <div class="econ-callout" id="ch1-econ"></div>
+    <div class="chart-box" id="ch1-chart-box">
+      <p class="chart-title" id="ch1-chart-title"></p>
       <canvas id="chart-timeline" height="200"></canvas>
-      <p class="chart-source">Illustrative capability maturity timeline based on platform release notes (Xero, Intuit, MYOB) and ACCA (2019) industry survey data.</p>
+      <p class="chart-source" id="ch1-chart-source"></p>
     </div>
-
     <h3 class="question-heading" id="ch1-question"></h3>
     <p class="question-sub" id="ch1-qsub"></p>
     <div class="choices" id="ch1-choices"></div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 4 — CHAPTER 2: THE DISPLACEMENT
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 4: CHAPTER 2 -->
 <section id="sec-ch2" class="story-section">
   <div class="container page">
     <div class="progress-bar">
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step current"></div>
-      <div class="progress-step"></div>
+      <div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step current"></div><div class="progress-step"></div>
     </div>
     <div id="ch2-charbar" class="char-bar"></div>
-    <div class="chapter-badge">Chapter 2 — The Displacement</div>
-
-    <div class="stat-row">
-      <div class="stat-card"><div class="stat-value" id="ch2-stat-val">−8%</div><div class="stat-label">Bookkeeper employment, year-on-year — national figure shifting with adoption speed</div></div>
-      <div class="stat-card"><div class="stat-value">60–70%</div><div class="stat-label">of knowledge worker tasks susceptible to automation via generative AI (McKinsey, 2023)</div></div>
-    </div>
-
+    <div class="chapter-badge" id="ch2-badge"></div>
+    <div class="stat-row" id="ch2-stats"></div>
     <div class="narrative-box" id="ch2-narrative"></div>
-
-    <div class="econ-callout"><strong>Economic mechanism:</strong> Autor, Levy &amp; Murnane (2003) showed that automation targets <em>routine</em> cognitive tasks — those sufficiently codifiable to be replicated algorithmically — rather than entire occupations. Bookkeepers and junior accountants spend 70–90% of their time on such tasks. Senior advisors spend the majority of their time on judgment-intensive, non-routine work. Displacement is therefore within the profession, not of it — but the distribution matters enormously.</div>
-
+    <div class="econ-callout" id="ch2-econ"></div>
     <div class="chart-box">
-      <p class="chart-title">Projected employment by accounting role — 2024 to 2030 <span id="ch2-chart-label" style="color:var(--accent);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0">(based on Chapter 1 choice)</span></p>
+      <p class="chart-title">Projected employment by accounting role — 2024 to 2030 <span id="ch2-chart-label" style="color:var(--accent);font-style:italic;font-weight:400;text-transform:none;letter-spacing:0"></span></p>
       <canvas id="chart-employment" height="220"></canvas>
       <p class="chart-source">Projections calibrated from BLS Occupational Outlook (2022–2032), McKinsey MGI (2023), and OECD (2023). Index: 2024 = 100.</p>
     </div>
-
     <h3 class="question-heading" id="ch2-question"></h3>
     <p class="question-sub" id="ch2-qsub"></p>
     <div class="choices" id="ch2-choices"></div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 5 — CHAPTER 3: THE CONCENTRATION PROBLEM
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 5: CHAPTER 3 -->
 <section id="sec-ch3" class="story-section">
   <div class="container page">
     <div class="progress-bar">
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step current"></div>
+      <div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step current"></div>
     </div>
     <div id="ch3-charbar" class="char-bar"></div>
-    <div class="chapter-badge">Chapter 3 — The Concentration Problem</div>
-
-    <div class="stat-row">
-      <div class="stat-card"><div class="stat-value">74%</div><div class="stat-label">of SME accounting software market held by two platforms — Xero and Intuit (IBISWorld, 2024)</div></div>
-      <div class="stat-card"><div class="stat-value">High</div><div class="stat-label">Platform switching costs — low data portability traps SMEs once committed to a vendor</div></div>
-    </div>
-
+    <div class="chapter-badge" id="ch3-badge"></div>
+    <div class="stat-row" id="ch3-stats"></div>
     <div class="narrative-box" id="ch3-narrative"></div>
-
-    <div class="econ-callout"><strong>Economic mechanism:</strong> AI-driven markets exhibit strong <em>data network effects</em> — platforms with more users generate more training data, producing better AI, attracting more users. This creates winner-takes-most dynamics. Acemoglu &amp; Restrepo (2018) argue that firms with large proprietary datasets hold a durable structural advantage that competes on terms no regulatory framework has yet fully addressed. The accounting software market is a textbook case.</div>
-
+    <div class="econ-callout" id="ch3-econ"></div>
     <div class="chart-box">
       <p class="chart-title">Accounting industry market share — 2024 vs projected 2030 scenarios</p>
       <canvas id="chart-market" height="220"></canvas>
-      <p class="chart-source">Sources: IBISWorld Accounting Services Australia (2024). 2030 projections are scenario-based estimates. Platform share includes AI-native bookkeeping tools.</p>
+      <p class="chart-source">Sources: IBISWorld Accounting Services Australia (2024). 2030 projections are scenario-based estimates.</p>
     </div>
-
     <h3 class="question-heading" id="ch3-question"></h3>
     <p class="question-sub" id="ch3-qsub"></p>
     <div class="choices" id="ch3-choices"></div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     SECTION 6 — ENDING
-════════════════════════════════════════════════════════════ -->
+<!-- SECTION 6: ENDING -->
 <section id="sec-ending" class="story-section">
   <div class="container page">
     <div class="progress-bar">
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
-      <div class="progress-step done"></div>
+      <div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div><div class="progress-step done"></div>
     </div>
-
     <div id="ending-content"></div>
-
     <hr class="divider">
-
     <span class="section-label">Uncertainty &amp; Structural Break Risks</span>
-    <div class="econ-callout" style="margin-bottom:12px"><strong>What could make all three scenarios wrong:</strong> These projections assume no AGI-level capability jump before 2030 and that the current regulatory pace holds. A step-change in AI reasoning capability — closing the gap on judgment-intensive advisory tasks — would compress the upside/downside range dramatically. Conversely, a major AI liability or privacy incident could slow adoption across the board, shifting all scenarios toward a later horizon.</div>
-    <div class="econ-callout" style="margin-bottom:0"><strong>Data gaps:</strong> The most significant gap is granular task-level time-use data for Australian accounting roles. Frey &amp; Osborne (2013) used US occupational definitions; Australian task profiles may differ, particularly for small-practice generalist accountants who perform advisory and compliance work within the same role. The OECD (2023) acknowledges this methodological constraint explicitly.</div>
-
+    <div class="econ-callout" style="margin-bottom:12px"><strong>What could make all three scenarios wrong:</strong> These projections assume no AGI-level capability jump before 2030 and that the current regulatory pace holds. A step-change in AI reasoning capability would compress the upside/downside range dramatically. Conversely, a major AI liability or privacy incident could slow adoption across the board.</div>
+    <div class="econ-callout" style="margin-bottom:0"><strong>Data gaps:</strong> The most significant gap is granular task-level time-use data for Australian accounting roles. Frey &amp; Osborne (2013) used US occupational definitions; Australian task profiles may differ, particularly for small-practice generalist accountants. The OECD (2023) acknowledges this methodological constraint explicitly.</div>
     <hr class="divider">
-
     <span class="section-label">Methods, Data &amp; Limitations</span>
     <div class="two-col">
       <div>
@@ -615,28 +375,25 @@ body {
           <li>Employment projections are illustrative scenario estimates calibrated to published ranges — not point forecasts</li>
           <li>Market share extrapolates from Australian IBISWorld data; global dynamics may differ materially</li>
           <li>Assumes no AGI-level capability jump before 2030; structural break risk is not modelled</li>
-          <li>Policy timelines assume standard parliamentary and regulatory processes (~18–24 months for major legislation)</li>
-          <li>Automation probability estimates (Frey &amp; Osborne, 2013) pre-date GPT-4; actual displacement may be significantly faster</li>
+          <li>Policy timelines assume standard parliamentary and regulatory processes (~18–24 months)</li>
+          <li>Automation probability estimates (Frey &amp; Osborne, 2013) pre-date GPT-4; actual displacement may be faster</li>
         </ul>
         <p style="font-size:0.85rem;font-weight:600;margin-top:20px;margin-bottom:8px;">AI Tooling Disclosure</p>
         <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55;">Research, narrative drafting, and code structure were assisted by Claude (Anthropic). Economic analysis, scenario parameters, and policy evaluations are the author's own. All cited sources independently verified.</p>
       </div>
     </div>
-
     <hr class="divider">
-
     <span class="section-label">References</span>
     <ul class="source-list ref-grid">
       <li>Acemoglu, D. &amp; Restrepo, P. (2019). Automation and new tasks: How technology displaces and reinstates labor. <em>Journal of Economic Perspectives</em>, 33(2), 3–30.</li>
       <li>Autor, D., Levy, F. &amp; Murnane, R. (2003). The skill content of recent technological change. <em>Quarterly Journal of Economics</em>, 118(4), 1279–1333.</li>
       <li>Frey, C. &amp; Osborne, M. (2013). <em>The future of employment: How susceptible are jobs to computerisation?</em> University of Oxford.</li>
       <li>Goldman Sachs (2023). <em>The potentially large effects of AI on economic growth</em>. Goldman Sachs Global Investment Research.</li>
-      <li>McKinsey Global Institute (2023). <em>The economic potential of generative AI: The next productivity frontier</em>. McKinsey &amp; Company.</li>
+      <li>McKinsey Global Institute (2023). <em>The economic potential of generative AI</em>. McKinsey &amp; Company.</li>
       <li>OECD (2023). <em>OECD Employment Outlook 2023: Artificial intelligence and the labour market</em>. OECD Publishing.</li>
       <li>IBISWorld (2024). <em>Accounting Services in Australia</em>. IBISWorld Industry Report X0001.</li>
       <li>ACCA (2019). <em>Professional accountants — the future: Drivers of change and future skills</em>. ACCA Global.</li>
     </ul>
-
     <div class="btn-row" style="margin-top:40px;">
       <button class="btn btn-primary" onclick="restart()">← Try Another Path</button>
     </div>
@@ -644,12 +401,9 @@ body {
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-// ═══ CHARACTER DATA ══════════════════════════════════════════════════════════
+// ═══ CHARACTER DATA ═══════════════════════════════════════════════════════════
 
 const CHARS = {
   sam: {
@@ -657,151 +411,261 @@ const CHARS = {
     extra: '3 years experience · $65,000/yr', icon: '📊',
     accent: '#ef4444', perspective: 'The Worker',
     stake: '"Am I about to be automated out of a job?"',
-    bio: 'You specialise in tax compliance at a regional mid-tier firm. You\'re competent and careful. You\'re also worried — AI tools can now do most of what you do in a fraction of the time.',
-    note: 'Your inbox has five newsletters this week about AI accounting tools. Your manager mentioned "efficiency reviews" in the all-hands. The question isn\'t whether AI is coming. It\'s what happens to people like you.'
-  },
-  james: {
-    name: 'James', role: 'Policy Advisor', firm: 'Treasury',
-    extra: 'AI & Labour Market brief', icon: '⚖️',
-    accent: '#3b82f6', perspective: 'The Regulator',
-    stake: '"What do I recommend — and what if I\'m wrong?"',
-    bio: 'You advise ministers on labour market policy. The accounting industry is your current brief. Your recommendations will shape how this transition plays out — for thousands of workers across the country.',
-    note: 'The employment data is already moving. Bookkeeper roles are down 8% year-on-year. Cabinet wants a response. You have the evidence. Now you need a position.'
+    bio: 'You specialise in tax compliance at a regional mid-tier firm. Three years in. You\'re competent and careful — and quietly terrified. The AI tools your firm just deployed can do most of what you do in twelve minutes.',
+    note: 'Your inbox has five newsletters this week about AI accounting tools. Your manager mentioned "efficiency reviews" in the all-hands. The question isn\'t whether AI is coming — it\'s whether there\'s still a version of your job on the other side of it.'
   },
   priya: {
     name: 'Priya', role: 'CFO', firm: 'Mid-sized construction company',
     extra: 'Finance team of 4 staff', icon: '💼',
     accent: '#10b981', perspective: 'The Adopter',
-    stake: '"Do I adopt AI and cut my team, or stay loyal?"',
-    bio: 'You manage four staff in finance and accounting. Your software provider\'s AI upgrade promises to cut costs by 40%. Two of your team have been with you for eight years.',
-    note: 'The technology is ready. The savings are real. The question is whether you use it — and what that means for the people who work for you, and for the broader industry they\'re part of.'
+    stake: '"Do I adopt AI and cut my team, or stay loyal — and at what cost?"',
+    bio: 'You manage four staff in finance and accounting. Your software vendor\'s AI upgrade promises to cut costs by 40%. Two of your team have been with you for eight years — including through a 2021 cash-flow crisis when they took personal loans rather than quit.',
+    note: 'The technology is ready. The savings are real. The board is watching. The question is whether you use it — and what it means for the people who work for you, and the precedent it sets for the industry around you.'
+  },
+  james: {
+    name: 'James', role: 'Policy Advisor', firm: 'Treasury',
+    extra: 'AI & Labour Market brief', icon: '⚖️',
+    accent: '#3b82f6', perspective: 'The Regulator',
+    stake: '"What do I recommend at scale — and what if I\'m wrong?"',
+    bio: 'You advise ministers on labour market policy. The accounting industry is your current brief — a test case for how AI disruption plays out across professional services. Your recommendations will shape the transition for thousands of workers.',
+    note: 'The employment data is already moving. Bookkeeper roles down 8% year-on-year. Cabinet wants a position. You have the evidence, the modelling, and the theory. Now you need a recommendation you can defend in three years\' time.'
   }
 };
 
-// ═══ CHAPTER NARRATIVE DATA ══════════════════════════════════════════════════
+// ═══ STORY DATA (fully differentiated by character) ═══════════════════════
 
-const CH1 = {
-  narratives: {
-    sam: `<p>Your firm has started trialling AI tools for tax compliance — the exact work you do. The software drafts a standard return in twelve minutes. It used to take you three hours.</p><p>Your manager hasn't said anything yet. But internal utilisation reports are public, and you can see yours declining. Meanwhile, Treasury is deciding whether to fast-track AI investment incentives in the next budget. If they do, adoption accelerates. If they wait, firms like yours move cautiously.</p><p>This policy call won't be yours to make. But it shapes everything that follows for people in your position.</p>`,
-    james: `<p>Treasury has escalated an options paper to your desk. The question: should the government include AI investment incentives — accelerated depreciation, R&D credits — in the next budget?</p><p>The case for is compelling: productivity gains, international competitiveness. The case against is subtler. <strong>Acemoglu &amp; Restrepo (2019)</strong> showed that automation doesn't always create new tasks fast enough to absorb displaced workers — what they call <em>so-so automation</em>. Fast-track incentives and the wave accelerates, with workers bearing the adjustment cost. Hold back, and firms self-pace — but the technology arrives regardless.</p>`,
-    priya: `<p>Your accounting software provider has offered you early access to their AI upgrade. Automated bookkeeping, payroll, tax prep, reconciliation — all handled. Annual cost: $12,000. Your current team cost: ~$280,000 in salaries and on-costs.</p><p>The maths is brutal. But two of your finance team helped keep the books straight through the company's 2021 cash-flow crisis. The government's stance on AI adoption incentives will determine how many other CFOs are making this same call — and how fast. If adoption accelerates across the board, the cost pressure on you to adopt increases.</p>`
-  },
-  question: {
-    sam: 'What does the government decide — and what does it mean for you?',
-    james: 'What do you recommend to the minister?',
-    priya: 'What does the government decide — and does it change your calculation?'
-  },
-  qsub: 'This policy decision shapes the speed of adoption across the industry. There is no neutral option.',
-  choiceA: { label: 'Option A — Fast-track', text: 'Government introduces AI investment incentives in the budget', sub: 'Accelerated depreciation + R&D credits for AI adoption in professional services. Adoption spreads rapidly and broadly.' },
-  choiceB: { label: 'Option B — Wait and see', text: 'No active government position — market-led rollout', sub: 'Firms self-pace. Adoption is slower and more uneven. Firms with the most capital move first.' }
-};
+const STORIES = {
 
-const CH2 = {
-  narratives: {
-    sam: {
-      A: `<p>The budget passed with AI investment incentives. Adoption accelerated. Within 18 months, three of the five people in your compliance team are on reduced hours. Your own contract was renewed — but with a new performance clause tied to AI-assisted output volumes.</p><p>The partners talk about "reskilling pathways." Two colleagues from your cohort have already left — one is retraining in financial planning, one is in hospitality. <strong>Bookkeeper employment nationally is down 14% year-on-year.</strong> The question now: does government fund a reskilling pathway, or leave workers to navigate it alone?</p>`,
-      B: `<p>Adoption has been slower and uneven. Your firm is still evaluating. Your role is under lower pressure than colleagues at firms that moved fast — but the reprieve feels temporary.</p><p>Bookkeeper employment is down 8% nationally. The disruption is real but slower-moving. The question: does government build a safety net now, before the second wave hits — or wait until the pressure becomes undeniable?</p>`
+  sam: {
+    ch1: {
+      badge: 'Chapter 1 — The Tools Arrive',
+      stats: [
+        { val: '12 min', lbl: 'Time for AI to draft a standard tax return — the same work Sam used to spend 3 hours on' },
+        { val: '−38%', lbl: 'Drop in Sam\'s billable utilisation rate over the past 3 months as AI handles routine outputs' }
+      ],
+      narrative: `<p>Your firm rolled out an AI compliance suite last quarter. At first it was optional. Now it\'s expected workflow. The software drafts tax returns from uploaded documents. It reconciles accounts overnight. It flags anomalies that used to take you a morning to find.</p><p>You\'ve been watching your utilisation reports. Three months ago you were billing 38 hours a week. Now it\'s 22 — not because you\'re working less, but because the AI handles what you used to handle. The maths is obvious to anyone who looks. Last week your manager scheduled a "workflow review."</p><p>You have colleagues who have embraced the tools completely. Their output numbers look great. You also have colleagues who have doubled down on client relationships and the complex, judgment-heavy work. The firm hasn\'t made any cuts yet. But it\'s coming.</p><p><strong>How you position yourself now shapes what happens when the firm rationalises.</strong></p>`,
+      econ: `<strong>Economic mechanism:</strong> Autor, Levy &amp; Murnane (2003) showed that automation displaces <em>routine cognitive tasks</em> — those codifiable enough to be replicated algorithmically — rather than entire occupations. Data entry, reconciliation, and basic tax prep fit this definition precisely. What remains is judgment-intensive, relational, and non-routine. The question for Sam isn\'t whether automation is happening — it\'s whether the remaining non-routine tasks are enough to sustain a career, and whether they require new skills to access.`,
+      chartTitle: 'AI capability adoption in accounting software — 2018 to 2024',
+      chartSource: 'Illustrative capability maturity timeline based on platform release notes (Xero, Intuit, MYOB) and ACCA (2019) industry survey data.',
+      question: 'Do you lean into the AI tools, or double down on what makes you human?',
+      qsub: 'This is a strategic positioning decision. The choice you make now determines how the firm sees your value — and what options you have when the restructure comes.',
+      choiceA: { label: 'Option A — Lean into the AI', text: 'Become the team\'s AI power user and quality oversight specialist', sub: 'You run every client through the AI, learn its failure modes, catch the 12% of returns where it gets things wrong. You pitch a new role: human-in-the-loop oversight. Your value is knowing when not to trust the machine.' },
+      choiceB: { label: 'Option B — Differentiate on human skills', text: 'Double down on client relationships and complex judgment work', sub: 'You focus on tax planning, complex edge cases, and the long-term client relationships AI can\'t replicate. You bet that human judgment stays valued — and that the firm will see it.' }
     },
-    james: {
-      A: `<p>The incentives accelerated adoption beyond Treasury's central scenario. The employment data is alarming: <strong>bookkeeper roles down 14% year-on-year</strong>, junior accountant positions contracting, wages polarising between senior advisors and entry-level roles.</p><p>Cabinet is asking for a response. Each option targets a different market failure — human capital underinvestment, adjustment asymmetry, or structural unemployment risk. What do you recommend?</p>`,
-      B: `<p>Adoption is slower than the fast-track scenario but still material. Bookkeeper employment down 8% year-on-year. The pace gives you slightly more time to design a response — but the structural pressure is identical.</p><p>Cabinet wants a position on displacement. What is your recommendation?</p>`
+    ch2: {
+      badge: 'Chapter 2 — The Restructure',
+      stats: {
+        A: { val: '46', lbl: 'Clients Sam now manages with AI assistance — up from 12 before. But two junior colleagues didn\'t survive the restructure.' },
+        B: { val: '−18%', lbl: 'Sam\'s utilisation rate vs 12 months ago. A formal performance review has been scheduled.' }
+      },
+      narrative: {
+        A: `<p>You became the go-to person. Three months after you started running the AI on every client, the software flagged a trust distribution structure in a return it had drafted — but got the tax treatment wrong. You caught it. Your manager gave you three new clients to manage.</p><p>But the firm also quietly didn\'t renew two junior contracts. The team that was six is now four. You\'re busier than before and your role is more secure — but something shifted. You spend more time reviewing AI outputs than doing the actual accounting work. You\'re good at it. You\'re not sure if you love it.</p><p>Now the firm is offering a formal credential: a 6-month part-time AI oversight qualification that cements your new role as their designated quality assurance specialist. It would make the transition permanent and put you in a new job category — with a clearer career path. It also means leaving compliance work behind.</p><p><strong>A reskilling fund has also opened: government-backed, covering 70% of credential costs for accounting workers moving into oversight or advisory roles. The application window is 60 days.</strong></p>`,
+        B: `<p>The colleagues who leaned into AI tools are billing twice what you are. The partners have noticed. Two of the three long-term clients you built relationships with have been migrated to AI-managed compliance — faster, cheaper. The human relationship is still there. But the billable rationale for it isn\'t.</p><p>Your firm is quietly restructuring. They\'ve offered some junior staff voluntary redundancy. You haven\'t been named. But the "efficiency review" scheduled three months ago is now a formal process with KPIs attached.</p><p>Meanwhile, a government-backed reskilling fund has opened — covering 70% of credential costs for accounting workers moving into advisory-support or AI-oversight roles. The application window is 60 days. You\'d need to start the course before your performance review concludes.</p><p><strong>This is probably the last clean off-ramp before the firm makes the decision for you.</strong></p>`
+      },
+      econ: `<strong>Economic mechanism:</strong> This is the within-occupation divergence that Acemoglu &amp; Restrepo (2019) identify as the distributional cost of so-so automation. AI doesn\'t eliminate the accountant — it eliminates the routine-task layer, leaving a smaller, higher-skilled residual role. Workers who can access that residual role survive and thrive. Those who can\'t face structural unemployment, not cyclical. The reskilling fund exists precisely because the market won\'t fund this transition adequately on its own: workers bear the cost, but firms and platforms capture most of the gain.`,
+      question: 'A reskilling pathway opens. Do you take it?',
+      qsub: 'The 60-day application window won\'t come around again. Staying in compliance might work — or it might mean the firm makes the call for you.',
+      choiceA: { label: 'Option A — Take the pivot', text: 'Enrol in the AI oversight credential and commit to the transition', sub: '6 months part-time. Funded 70% by the reskilling scheme. It\'s a different kind of accounting work — but it\'s a defined role with a career path. You stop competing with the AI and start managing it.' },
+      choiceB: { label: 'Option B — Hold your position', text: 'Stay in compliance and make the case for experienced human review', sub: 'Someone has to verify AI outputs. You argue that role belongs to a trained accountant, not a prompt. You stay, you hold the line, and you see whether the firm agrees with you.' }
     },
-    priya: {
-      A: `<p>You adopted the AI upgrade six months after the budget passed. Your competitors moved even faster. Two of your finance team are now part-time. One is retraining; you covered 30% of the fees.</p><p>Your accounting costs are down 35%. But the policy environment will determine whether your former full-time staff have a viable path forward — or whether the market absorbs them alone.</p>`,
-      B: `<p>You held off on full adoption. Your competitors who moved fast are slightly more cost-efficient. The board has noticed. You've argued that team continuity has real value — for now.</p><p>Does the government build a reskilling safety net? If not, the human cost of the transition lands entirely on individuals and employers like you.</p>`
+    ch3: {
+      badge: 'Chapter 3 — Your New Normal',
+      stats: [
+        { val: '74%', lbl: 'of SME accounting software market held by two platforms — Xero and Intuit (IBISWorld, 2024)' },
+        { val: '−35%', lbl: 'Mid-tier practice headcount nationally since 2024. The firms that used to hire junior accountants have restructured.' }
+      ],
+      narrative: `<p>It\'s 2027. The compliance team that was six people when you joined is now two — you and a senior manager. Everything else is AI-managed. The landscape outside your firm has shifted the same way: mid-tier practices that ran on junior compliance work have lost their revenue base and consolidated or closed.</p><p>Your daily work looks completely different from what you imagined when you studied accounting. What it looks like exactly depends on the choices you\'ve made. But one thing is consistent: the question of what a human accountant is <em>for</em> in 2027 is still being worked out in real time.</p><p>A group of accountants working in AI-assisted roles has started an industry network — professionals defining the norms for human-AI collaboration in accounting: what oversight standards should look like, what ethics apply when AI makes errors, what junior accountants need to know now. It\'s early. It\'s volunteer-run. But it\'s where the profession\'s next shape is being decided.</p><p><strong>You\'ve navigated a difficult transition. The question now is whether you use that experience to help shape what comes next.</strong></p>`,
+      econ: `<strong>Economic mechanism:</strong> The concentration dynamic Acemoglu &amp; Restrepo (2018) identify — platform incumbents with data advantages compounding their lead — means the rules of this new market are being set by a small number of actors. Professional norms, oversight standards, and ethical frameworks for AI-assisted accounting don\'t emerge automatically. They require practitioner input. Workers who help define the standards of their emerging role are less likely to find those standards set against them.`,
+      question: 'The AI accounting practitioners network is forming. Do you get involved?',
+      qsub: 'This is about more than career — it\'s about whether people who navigated this transition have a voice in how human-AI accounting work gets defined and valued going forward.',
+      choiceA: { label: 'Option A — Join and contribute', text: 'Help define the standards for human-AI accounting practice', sub: 'Share your experience. Work on oversight norms, ethical AI use guidelines, and what the next cohort of accountants needs to know. Your perspective — having lived the transition — is exactly what this network is missing.' },
+      choiceB: { label: 'Option B — Focus on your own situation', text: 'You\'ve navigated enough change — prioritise stability', sub: 'Industry networks are for people with energy to spare. Right now you need to consolidate what you\'ve built, not take on more. The work will get done by others.' }
     }
   },
-  question: {
-    sam: 'Does the government fund a reskilling pathway for displaced workers?',
-    james: 'What is your policy recommendation on workforce displacement?',
-    priya: 'Does the government build a safety net for displaced finance workers?'
-  },
-  qsub: 'Three options. Each targets a different market failure. Only one commits real resources.',
-  choiceA: { label: 'Option A — Reskilling Fund', text: 'Government levies AI-platform revenue to fund portable reskilling credentials', sub: 'Workers get funded pathways into advisory-support, data analysis, and AI-oversight roles. Takes 2 years to scale at full capacity.' },
-  choiceB: { label: 'Option B — Market-led retraining', text: 'Government encourages but does not fund retraining', sub: 'Relies on firms and individuals. Some workers retrain independently. Access is uneven — workers with employer support or savings manage. Others don\'t.' },
-  choiceC: { label: 'Option C — No coordinated response', text: 'Government defers — treats displacement as a standard labour market adjustment', sub: 'Unemployment insurance applies. No targeted reskilling. Workers navigate the transition alone. Standard Jobseeker conditions apply.' }
-};
 
-const CH3 = {
-  narratives: {
-    sam: `<p>By 2027, Xero and Intuit together handle 74% of SME accounting software. Their AI handles most routine compliance. The mid-tier firms that used to hire people like you have lost their compliance revenue base — and many have closed or merged.</p><p>Your firm has pivoted to advisory. You've moved into an AI-oversight and quality-assurance role. But the market for that role is narrow. And the platforms are already developing advisory tools of their own.</p><p>The question: does government force platforms to open their APIs — letting advisory firms integrate — or allow further consolidation?</p>`,
-    james: `<p>ACCC has raised formal concerns. The accounting software market — cloud-based, AI-integrated — now exhibits strong network effects and high switching costs. Xero and Intuit hold 74% of SME market share. Their training data advantages are compounding.</p><p>The concern isn't just price: it's that mid-tier and small accounting practices serving Australia's 2.3 million SMEs are structurally dependent on platform terms they can't negotiate. Data portability is low. Exit costs are high. <strong>You need to advise the minister on competition policy for AI-integrated markets.</strong></p>`,
-    priya: `<p>You committed to the market-leader platform in 2025. Eighteen months later they raised SME pricing 28%. You asked about switching. Your accountant said data migration would cost ~$60,000 and six months of disruption. You're locked in.</p><p>Open API mandates would have given you options. You didn't have a voice in that policy decision at the time. Now you're living with its absence — and watching your software costs compound annually.</p>`
+  priya: {
+    ch1: {
+      badge: 'Chapter 1 — The Vendor Pitch',
+      stats: [
+        { val: '$268K', lbl: 'Annual salary + on-costs for Priya\'s current 4-person finance team' },
+        { val: '40%', lbl: 'Cost reduction promised by the AI suite vendor — if Priya adopts fully and restructures headcount' }
+      ],
+      narrative: `<p>The vendor\'s account director presents to you and two board members. The demo is slick. AI-automated bookkeeping, reconciliation, payroll, tax prep, and reporting — integrated with your existing ERP. Annual cost: $12,000. "We estimate 40% reduction in finance headcount requirements for businesses of your size."</p><p>One board member is nodding. The other is typing.</p><p>After the meeting, a CFO peer from a competing construction firm texts you: <em>"They presented to us last week. We\'re going ahead. Full adoption, two roles out by end of Q2."</em></p><p>You think about two things simultaneously. The first is the board\'s reaction to a 40% cost saving. The second is the faces of the two senior team members who stayed through the 2021 cash-flow crisis — who took personal loans to cover their own bills rather than quit.</p><p>There\'s a third option the vendor didn\'t pitch: <strong>hybrid adoption</strong>. Keep the team. Use AI to expand what they do rather than replace them. Your external accountant says the more conservative firms are doing this. Higher costs. Slower efficiency gain. Stronger culture and institutional knowledge retention.</p>`,
+      econ: `<strong>Economic mechanism:</strong> Individual firms face a collective action problem. If competitors adopt AI and cut headcount, your firm faces a cost disadvantage — pressure to follow. But if every firm cuts simultaneously, the aggregate labour market effect is severe and the institutional knowledge lost is irreplaceable. Acemoglu &amp; Restrepo (2019) call this so-so automation at the firm level: individually rational decisions producing collectively damaging outcomes. The hybrid option is costlier in the short run but preserves optionality and avoids the productivity pitfalls of over-automating.`,
+      chartTitle: 'AI capability adoption in accounting software — 2018 to 2024',
+      chartSource: 'Illustrative capability maturity timeline based on platform release notes (Xero, Intuit, MYOB) and ACCA (2019) industry survey data.',
+      question: 'What do you recommend to the board?',
+      qsub: 'This decision sets the precedent for your finance function — and signals to your team what kind of employer you are. Both options have real costs.',
+      choiceA: { label: 'Option A — Hybrid adoption', text: 'Use AI to expand team capacity, not replace headcount', sub: 'Present AI as a productivity multiplier, not a cost-cutting tool. The team\'s institutional knowledge and client relationships have real value. You\'ll grow output without cutting people — at the cost of a slower efficiency gain.' },
+      choiceB: { label: 'Option B — Full adoption', text: 'Restructure the team around the AI — take the 40% saving', sub: 'Two roles exit by Q2. You retain the two highest performers in new AI-oversight and strategic finance roles. The numbers work and the board gets what it wants. The human cost is real but the market is moving this way regardless.' }
+    },
+    ch2: {
+      badge: 'Chapter 2 — The Human Cost',
+      stats: {
+        A: { val: '+40%', lbl: 'Output per finance team member with AI tools. Team intact. But the board is still asking about cost parity with full-adoption competitors.' },
+        B: { val: '−20%', lbl: 'Output quality score on last external audit review — institutional knowledge walked out with the two redundant roles.' }
+      },
+      narrative: {
+        A: `<p>The team is still intact. You gave everyone agency over how they integrate AI into their workflow — two members became enthusiastic power users, one is slower to adapt. The AI handles routine reconciliations and payroll overnight. Your team now produces monthly management reports in four days that used to take two weeks.</p><p>But your peer who went full-adoption has lower base costs. At last quarter\'s board review, the Chair asked you directly: <em>"Are we leaving savings on the table?"</em> You made the case for institutional knowledge and team continuity. The board accepted it. For now.</p><p>The team member who\'s adapting slowest — eight years with the company, knows every legacy contract by heart — is 60% through the AI workflow certification you\'ve asked everyone to complete. She\'ll get there. But she\'s anxious, and it shows. <strong>Talent review is next month. What do you do with that?</strong></p>`,
+        B: `<p>Two team members left by end of Q2 as planned. The cost saving landed in the books. The board was satisfied — for three months.</p><p>Then a tax dispute from 2022 came up in an ATO review. The documentation and contextual history for it lived in the head of your senior accountant — the one who left. You spent $15,000 on an external firm to reconstruct it. A payroll error in month three wasn\'t caught for six weeks because no one was reviewing AI outputs closely. It affected superannuation contributions for 34 employees and cost $8,000 to remediate.</p><p>Your remaining team is running lean and anxious. One of your best performers is quietly interviewing elsewhere — you can see it in her calendar blocks. <strong>The institutional knowledge that left with the redundant roles is proving harder to replace than the vendor\'s ROI model suggested.</strong></p>`
+      },
+      econ: `<strong>Economic mechanism:</strong> The productivity cost of over-automation is documented but underweighted in vendor ROI models. Firms hold implicit knowledge — client context, regulatory history, relationship nuance — that doesn\'t appear on a headcount spreadsheet. McKinsey (2023) notes that the firms capturing the most value from AI are those that treat it as <em>augmentation</em>, not substitution: humans and AI together outperform either alone, particularly in contexts with high institutional complexity. The hardest cost to quantify is the knowledge that walks out the door — and it\'s usually only measured after an incident.`,
+      question: 'Talent review: your struggling (or burning out) team member. What do you do?',
+      qsub: 'How you handle this signals to the rest of the team what the company values. It also determines whether you retain the institutional knowledge that\'s still in the building.',
+      choiceA: { label: 'Option A — Invest in people', text: 'Commit to supported transition for every remaining team member', sub: 'Dedicated training budget, mental health check-ins, transparent career pathways into AI-era finance roles. Signal clearly that your team\'s development is a strategic asset, not a cost to be managed down.' },
+      choiceB: { label: 'Option B — Manage for output', text: 'Set clear performance benchmarks — accept some attrition as natural', sub: 'The team knows the expectations. If someone can\'t meet them with the tools available, that\'s a performance issue. You hire for what you need now. Efficient, transactional, honest.' }
+    },
+    ch3: {
+      badge: 'Chapter 3 — The Platform Trap',
+      stats: [
+        { val: '+28%', lbl: 'Price increase applied by Priya\'s AI platform vendor — described as a "value alignment adjustment" in the account manager\'s email' },
+        { val: '$55K', lbl: 'Estimated cost to migrate data to a competing platform — plus 6 months of disrupted reporting' }
+      ],
+      narrative: `<p>It\'s 2027. Your AI platform — now one of two dominant players in the Australian SME accounting software market — has raised annual pricing 28%. The email from the account manager calls it a "value alignment adjustment." Your contract renews in six weeks.</p><p>You run the numbers. The platform now costs $31,000 a year, up from $12,000 at contract signature. Your external accountant estimates switching to the competitor would cost $55,000 in migration and six months of disrupted reporting cycles. <strong>You are effectively captive.</strong></p><p>But something else is happening: the government has opened a consultation on open data standards for business software. If businesses submit responses in favour of mandatory API interoperability, it creates real switching pressure on vendors — not just for you, but for thousands of SMEs across the market. The submission window is six weeks.</p><p>Your board wants you to minimize costs. Your finance team has built its entire workflow around this platform. The vendor\'s new forecasting features are genuinely useful. And you have a business to run.</p>`,
+      econ: `<strong>Economic mechanism:</strong> Platform lock-in is the second-order cost of AI adoption that most CFOs don\'t model at contract signature. Data network effects — more users → more training data → better AI → more users — create winner-takes-most dynamics where switching costs compound over time. Acemoglu &amp; Restrepo (2018) identify this as a structural advantage that no individual firm can negotiate away. The only lever that works is either collective action (credible switching threat) or regulatory intervention (mandatory portability). Priya\'s individual negotiating power against a platform with 74% market share is close to zero.`,
+      question: 'How do you respond to the pricing increase — and the government consultation?',
+      qsub: 'Your individual negotiating power is limited. Your collective power — as one of thousands of SMEs in the same position — is different. But engaging takes time you don\'t have.',
+      choiceA: { label: 'Option A — Push back on both fronts', text: 'Negotiate hard and engage with the open standards consultation', sub: 'Threaten credibly to join a collective switching initiative. Submit a response to the government consultation supporting mandatory data portability. Use your business voice where individual negotiation can\'t reach.' },
+      choiceB: { label: 'Option B — Absorb it and move on', text: 'Accept the pricing increase — it\'s cheaper than the disruption of switching', sub: 'You have a construction company to run. The platform works. You\'ll manage the cost increase through budget reallocation. The government consultation is someone else\'s problem.' }
+    }
   },
-  question: {
-    sam: 'Should the government mandate open APIs for dominant accounting platforms?',
-    james: 'What is your recommendation on platform competition policy?',
-    priya: 'Should the government have mandated open APIs? Does it still matter?'
-  },
-  qsub: 'Platform concentration is a second-order consequence of AI adoption. How regulators respond determines who can compete long-term — and who cannot.',
-  choiceA: { label: 'Option A — Mandate open APIs', text: 'Require dominant platforms to offer standardised data access to third-party providers', sub: 'Levels the playing field. Small and mid-tier advisory practices can integrate AI tools without platform lock-in. Reduces concentration. Modelled on EU Data Act framework.' },
-  choiceB: { label: 'Option B — Let the market consolidate', text: 'No intervention — platforms set their own access terms', sub: 'Less regulatory friction. Platforms invest more in AI features. But lock-in deepens and small practices permanently lose negotiating power.' }
-};
 
-// ═══ ENDING DATA ═════════════════════════════════════════════════════════════
-
-const ENDINGS = {
-  upside: {
-    key: 'upside', title: 'Upside 2030', cssClass: 'ending-upside', colorVar: 'var(--upside)',
-    subtitle: 'Proactive policy bent the curve. AI adoption was broad and benefits were distributed. The transition was disruptive — but managed.',
-    metrics: [
-      { val: '−10%', label: 'Bookkeeper employment vs 2024', note: 'Many retrained into advisory-support and AI-oversight roles via funded pathways' },
-      { val: '+20%', label: 'Senior advisory employment', note: 'AI handling compliance freed senior partners for higher-value judgment work' },
-      { val: 'Stable', label: 'Small practice market share', note: 'Open APIs let small firms integrate AI without full platform lock-in' },
-      { val: '↑ Improved', label: 'Consumer access to advice', note: 'AI lowered cost of basic advisory; access broadened into underserved segments' }
-    ],
-    charOutcomes: {
-      sam: 'You completed an AI-oversight and data analytics credential — 18 months part-time, fully funded by the reskilling scheme. You\'re now a senior AI-oversight specialist at the same firm, reviewing AI-generated tax outputs and catching edge cases. Salary: $83,000. You weren\'t automated out. You were carried forward. Three colleagues from your cohort made the same transition. One didn\'t — but they had more options than they would have otherwise.',
-      james: 'Your policy package was adopted across all three levers, sequenced as you recommended. Three years later, the employment data shows the transition was meaningfully smoother than the no-intervention counterfactual. The reskilling fund enrolled 48,000 workers nationally. The open API framework is being studied by three other OECD countries. You were asked to present at the OECD Labour Policy Conference in Paris.',
-      priya: 'You kept your core finance team and covered 30% of their reskilling costs. Team costs are up marginally on the pure-AI alternative, but your team now handles 40% more work with AI support. You\'re not locked to any platform — when a competitor\'s pricing spiked, you had real alternatives. The board stopped asking about your team headcount.'
+  james: {
+    ch1: {
+      badge: 'Chapter 1 — The Options Paper',
+      stats: [
+        { val: '−8%', lbl: 'Bookkeeper employment, year-on-year — the displacement has already started before any policy response' },
+        { val: '+1.2%', lbl: 'Estimated GDP contribution from AI adoption in professional services over 3 years (McKinsey-calibrated central scenario)' }
+      ],
+      narrative: `<p>Your brief arrives at 7:14am on a Monday. <em>AI adoption in professional services — options for policy response.</em> The Employment Minister wants a paper by Friday.</p><p>The context: accounting is the test case. 94% automation probability (Frey &amp; Osborne, 2013). The tools are deployed at scale. Bookkeeper employment is already down 8% year-on-year. But GDP is up. Productivity in AI-adopting firms is up 22%. Treasury\'s central forecast has the transition as net positive for the economy by 2028.</p><p>Two camps have formed within Treasury. The <strong>productivity team</strong>: fast-track adoption with tax credits, deal with displacement through existing welfare infrastructure — Jobseeker, job agencies, time-limited support. The <strong>labour market team</strong>: existing welfare wasn\'t designed for professional services displacement. These are credentialed workers with specific skills and HECS debt. They won\'t flow easily into alternative employment without targeted intervention. If you accelerate without building the net first, you embed the inequality.</p><p>James has to write a single clear recommendation.</p>`,
+      econ: `<strong>Economic mechanism:</strong> This is the core Acemoglu &amp; Restrepo (2019) tension in policy form. Fast adoption maximises the productivity channel — GDP, firm competitiveness, consumer prices. But whether it generates the reinstatement effect — new tasks that absorb displaced workers — is empirically uncertain. <cite>So-so automation</cite> happens when productivity gains are captured without sufficient new task creation. The policy choice is essentially a bet: does the reinstatement effect happen organically, or does it require institutional design to function?`,
+      chartTitle: 'AI capability adoption in accounting software — 2018 to 2024',
+      chartSource: 'Illustrative capability maturity timeline based on platform release notes (Xero, Intuit, MYOB) and ACCA (2019) industry survey data. James uses this data in his options paper as context for the pace of change.',
+      question: 'What is the core framing of your recommendation?',
+      qsub: 'You have one shot at the minister\'s attention. The framing you choose determines which levers get pulled — and who bears the adjustment cost.',
+      choiceA: { label: 'Option A — Conditional incentives', text: 'AI investment tax credits tied to firm-level workforce transition plans', sub: 'Firms get the credit if they document and fund reskilling pathways for affected roles. Adoption still accelerates — but with a social compact built in. Harder to administer, harder to sell to industry. More defensible in three years\' time.' },
+      choiceB: { label: 'Option B — Productivity-first', text: 'Unconditional adoption incentives — let the market manage displacement', sub: 'Maximise adoption speed and GDP gain. Manage displacement through extended Jobseeker provisions. The reinstatement effect will follow if adoption is broad enough. Cleaner to implement. Bigger risk if reinstatement doesn\'t materialise.' }
     },
-    kpiTable: `<div class="chart-box" style="margin-top:20px"><p class="chart-title">Policy KPIs — Upside 2030 targets</p><table class="comparison-table"><thead><tr><th>KPI</th><th>Target</th><th>Baseline (no policy)</th></tr></thead><tbody><tr><td>Displaced workers re-employed at equivalent wage within 24 months</td><td style="color:var(--upside);font-weight:600">60%</td><td style="color:var(--text-muted)">~35%</td></tr><tr><td>Credential completions via reskilling fund (national)</td><td style="color:var(--upside);font-weight:600">48,000</td><td style="color:var(--text-muted)">~8,000 (self-funded)</td></tr><tr><td>Small practice market share vs 2024</td><td style="color:var(--upside);font-weight:600">Stable (±3%)</td><td style="color:var(--text-muted)">−25%</td></tr><tr><td>SME platform switching cost (data portability)</td><td style="color:var(--upside);font-weight:600">Reduced by open APIs</td><td style="color:var(--text-muted)">High — lock-in persists</td></tr></tbody></table></div>`,
-    econ: 'The upside scenario reflects the reinstated task framework operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. This is closer to the Autor et al. productivity-plus-reinstatement scenario than the so-so automation baseline. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption: where gains accumulate to platform incumbents rather than distributing through the market. The productivity effect was strong, and the policy environment ensured the reinstatement effect had the institutional infrastructure to operate.'
-  },
-  baseline: {
-    key: 'baseline', title: 'Baseline 2030', cssClass: 'ending-baseline', colorVar: 'var(--baseline)',
-    subtitle: 'Partial policy, uneven outcomes. The transition happened — just without a full safety net. Some workers made it. Others didn\'t.',
-    metrics: [
-      { val: '−20%', label: 'Bookkeeper employment vs 2024', note: 'Significant displacement; reskilling access uneven across income and region' },
-      { val: '+8%', label: 'Senior advisory employment', note: 'Growth real but insufficient to absorb all displaced workers' },
-      { val: '−12%', label: 'Small practice market share', note: 'Platforms captured SME compliance; advisory held but margins compressed' },
-      { val: '↗ Mixed', label: 'Consumer access to advice', note: 'Improved at low end; mid-market advisory costs rose as practices consolidated' }
-    ],
-    charOutcomes: {
-      sam: 'You retrained — on your own. It took two years, $14,000 of savings, and a part-time TAFE course completed after work hours. You\'re now an advisory assistant at a smaller firm, earning $74,000. You made it. Three colleagues from your cohort are working in entirely different fields. One is in insurance processing. One drives for a rideshare platform. You got lucky — you had savings and a supportive partner. They didn\'t.',
-      james: 'Your policy was partial. The reskilling fund launched underfunded — $380M instead of the $1.2B model you recommended. Eligibility criteria were too narrow; platform-exposed workers often didn\'t qualify. The employment data is better than the downside projection — but worse than your Year 1 forecast. A Senate inquiry has requested your appearance to explain the gap between modelled and actual outcomes.',
-      priya: 'You adopted AI but kept a reduced team — two people instead of four. Costs are above pure-AI competitors. The board asked twice. You held your ground. Your two remaining finance staff handle strategic and oversight work. The efficiency win was smaller than the vendor promised, but you sleep without guilt. Roughly.'
+    ch2: {
+      badge: 'Chapter 2 — The Cabinet Brief',
+      stats: {
+        A: { val: '12,000', lbl: 'Estimated job losses avoided vs the unconditional scenario — at a cost of 0.2% lower GDP growth and significant industry compliance complaints.' },
+        B: { val: '+4.2pp', lbl: 'Bookkeeper unemployment above the sector average. Regional concentration in three cities is showing youth unemployment spikes.' }
+      },
+      narrative: {
+        A: `<p>The conditional incentives framework passed. Adoption has been slightly slower — industry groups filed three submissions complaining about the compliance burden. But 47 of the 200 largest accounting practices have submitted workforce transition plans, and an estimated 12,000 of the projected displaced workers have enrolled in firm-funded credential programs.</p><p>The employment data is better than the unconditional forecast. But not as much as the model suggested. Some firms are gaming the requirement — submitting transition plans that are technically compliant but don\'t translate into real reskilling investment.</p><p>The Productivity Commission has released a working paper questioning whether the conditionality compliance costs outweigh the labour market benefits. The Minister wants your response. <strong>Cabinet is also asking whether the government should now fund a direct reskilling program to complement the firm-level requirements.</strong></p>`,
+        B: `<p>Adoption accelerated beyond the central forecast. GDP growth has exceeded quarterly projections. The Finance Minister is satisfied. Firm-level productivity in AI-adopting professional services practices is up 18%.</p><p>But: bookkeeper unemployment is 4.2 percentage points above the sector average. The ABS release last month included a regional heat map showing three cities with historically concentrated accounting employment are experiencing youth unemployment spikes. A community newspaper in one ran a feature that made the ABC national news.</p><p>Jobseeker claims from former bookkeeping and junior accounting roles have doubled year-on-year. The existing welfare system is processing them identically to any other unemployment — $693/fortnight and a job agency referral. There is no targeted reskilling. Workers are navigating it alone. <strong>The Employment Minister\'s office has called. Cabinet wants a displacement response now.</strong></p>`
+      },
+      econ: `<strong>Economic mechanism:</strong> The distributional question is now unavoidable. GDP growth and worker displacement are not mutually exclusive — they are happening simultaneously, which is the predicted so-so automation outcome. The reinstatement effect (new tasks creating new jobs) requires institutional infrastructure to operate: workers need funded time and accessible credentials to transition into new roles. Without that infrastructure, the productivity gains from AI accrue to firms and platform shareholders, while adjustment costs fall entirely on individual workers — those least able to bear them.`,
+      question: 'What do you recommend on workforce displacement?',
+      qsub: 'Cabinet wants a specific, costed response. Each option targets a different market failure — and carries a different political and fiscal risk.',
+      choiceA: { label: 'Option A — Levy-funded reskilling program', text: 'Platform revenue levy funds portable credentials for displaced workers', sub: '1.5% levy on annual revenue for AI platforms with >$50M Australian revenue. Funds targeted, portable credentials for accounting-adjacent reskilling. $1.2B over 4 years. Takes 18 months to scale. Addresses the structural gap Jobseeker cannot fill.' },
+      choiceB: { label: 'Option B — Extended Jobseeker provisions', text: 'Extend payment period for displaced professional services workers', sub: 'Increase Jobseeker duration from 12 to 18 months for workers in AI-affected professional services occupations. Lower cost, faster to implement. Uses existing infrastructure. Less targeted — won\'t fund credentials or change the structural trajectory.' }
     },
-    econ: 'The baseline reflects so-so automation without sufficient policy offset. The productivity effect materialised — AI-enabled firms produced more output per worker — but the reinstatement effect was weak and unevenly distributed. New roles emerged (advisory-support, AI oversight) but without institutional reskilling support, access was determined by income, employer, and geography rather than effort or ability. Concentration in the platform market proceeded without structural intervention, compounding the distributional problem Acemoglu &amp; Restrepo (2019) identify: productivity gains that accrue to capital and platform incumbents rather than to labour or consumers broadly.'
-  },
-  downside: {
-    key: 'downside', title: 'Downside 2030', cssClass: 'ending-downside', colorVar: 'var(--downside)',
-    subtitle: 'Rapid concentration, minimal safety net. AI productivity gains flowed to platforms and large firms. Workers and small practices absorbed the cost.',
-    metrics: [
-      { val: '−35%', label: 'Bookkeeper employment vs 2024', note: 'Routine compliance fully automated; no reskilling pathway existed at scale' },
-      { val: '+2%', label: 'Senior advisory employment', note: 'Minimal growth — consolidation reduced total industry headcount' },
-      { val: '−25%', label: 'Small practice market share', note: 'Platforms captured SME market; mid-tier practices largely closed or merged away' },
-      { val: '↓ Worsened', label: 'Consumer access to advice', note: 'Basic services disappeared from regional areas; advisory prices rose at top end' }
-    ],
-    charOutcomes: {
-      sam: 'Your contract wasn\'t renewed. You were 27. You spent 14 months unemployed, exhausted your savings, and eventually retrained independently into insurance claims processing. Salary: $51,000. It\'s not what you trained for. Your HECS debt from your accounting degree is now worth less than the education cost you. You were in the wrong role at the wrong time — and the system provided no bridge. You\'re not alone: 23,000 bookkeepers and junior accountants left the profession in the same 18-month window.',
-      james: 'Your department\'s inaction was the lead finding of a Senate inquiry report titled <em>"Lost in Transition: AI Displacement in Professional Services."</em> Your section was restructured. You were moved to a different brief — trade policy. You still have the draft of the reskilling fund proposal you shelved in Year 1 on your desktop. You\'ve stopped opening it.',
-      priya: 'You locked into the market-leader platform in 2025. In 2027 they raised SME pricing 48%. In 2028 they raised it again. Data migration costs are prohibitive — ~$60,000 and six months of disruption, your accountant said. You\'re effectively captive. Your annual platform costs now exceed what your old full-time finance team cost you. The decision looked rational at the time.'
-    },
-    econ: 'The downside is the full Acemoglu &amp; Restrepo (2019) so-so automation outcome: labour displaced without a strong reinstatement effect or policy offset. The productivity channel operated — AI-enabled firms produced more output — but gains concentrated in platform incumbents and large firms with data and compute advantages, not in workers or consumers. The competition failure compounded the labour market failure: high switching costs and data lock-in prevented the competitive pressure that would normally transmit productivity gains through lower prices and higher wages. Regional and lower-income workers faced the steepest adjustment with the least institutional support. The distributional outcome was close to the worst-case scenario from the modelling — not because anyone chose it, but because no one acted to prevent it.'
+    ch3: {
+      badge: 'Chapter 3 — The Structural Question',
+      stats: [
+        { val: '74%', lbl: 'SME accounting software market held by Xero and Intuit — ACCC has rated market concentration as "High" (IBISWorld, 2024)' },
+        { val: 'High', lbl: 'Platform switching costs — low data portability means SMEs are structurally captive once committed to a vendor' }
+      ],
+      narrative: `<p>The ACCC has referred the accounting software market to Treasury for a formal policy response. Xero and Intuit hold 74% of SME market share. Their training data advantages are compounding — more users means better AI, which attracts more users. Switching costs are prohibitive. Small and mid-tier accounting practices are structurally dependent on platform terms they cannot negotiate.</p><p>The macroeconomic stakes are larger than they appear. If productivity gains from AI flow primarily to 2–3 global platform shareholders, the distributional outcome for Australia is very different from a world where competition keeps platform pricing competitive and Australian firms retain real alternatives. This is the template question — get it right here, and it\'s a model for financial services, legal, medical, and every other professional services sector that AI is about to reach.</p><p>James reads the EU Digital Markets Act summary. He looks at the Australian Treasury\'s draft AI governance framework. He looks at the employment and concentration data from the previous two chapters of this transition. <strong>What kind of economy is Australia building — and is there still time to shape it?</strong></p>`,
+      econ: `<strong>Economic mechanism:</strong> Data network effects create compounding structural advantages that standard competition policy wasn\'t designed to address. Acemoglu &amp; Restrepo (2018) identify this as the mechanism by which AI productivity gains concentrate in incumbent platforms rather than distributing through market competition. The question is whether regulatory intervention can restore the competitive pressure that would normally transmit productivity gains to workers and consumers — or whether the structural advantage is already too entrenched to unwind without significant cost.`,
+      question: 'What do you recommend on platform regulation?',
+      qsub: 'This recommendation will be cited in whatever comes next. The precedent here extends well beyond accounting software.',
+      choiceA: { label: 'Option A — Strong structural intervention', text: 'Mandatory open APIs, data portability, updated merger review criteria', sub: 'Dominant platforms must provide standardised data access to third-party providers. Data portability requirements reduce switching costs. Merger review criteria updated for AI-era network effects. Modelled on EU Digital Markets Act. High regulatory complexity — but addresses the structural problem directly.' },
+      choiceB: { label: 'Option B — Voluntary code of practice', text: 'Co-design with industry, non-binding commitments, review in 3 years', sub: 'Lower regulatory friction. Preserves investment incentive. Gives platforms the chance to self-regulate before mandatory requirements kick in. Historical record on voluntary codes in concentrated markets is not encouraging.' }
+    }
   }
 };
+
+// ═══ DASHBOARD CHOICE LABELS ═════════════════════════════════════════════════
+
+const DASH_LABELS = {
+  sam:   { ch1: { A:'Lean into AI', B:'Human skills focus' }, ch2: { A:'Took the pivot', B:'Held position' },   ch3: { A:'Joined network', B:'Stayed focused' } },
+  priya: { ch1: { A:'Hybrid adoption', B:'Full adoption' },   ch2: { A:'Invested in team', B:'Managed for output' }, ch3: { A:'Pushed back', B:'Absorbed costs' } },
+  james: { ch1: { A:'Conditional', B:'Fast-track' },          ch2: { A:'Levy-funded', B:'Extended Jobseeker' }, ch3: { A:'Strong regulation', B:'Voluntary code' } }
+};
+
+// ═══ ENDING SCORE LABELS ═════════════════════════════════════════════════════
+
+const SCORE_LABELS = {
+  sam:   { ch1: { A:'Lean into AI',           B:'Human skills focus'   }, ch2: { A:'Took the pivot',     B:'Held position'        }, ch3: { A:'Joined network',    B:'Stayed focused'    } },
+  priya: { ch1: { A:'Hybrid adoption',        B:'Full adoption'        }, ch2: { A:'Invested in team',   B:'Managed for output'   }, ch3: { A:'Pushed back',       B:'Absorbed costs'    } },
+  james: { ch1: { A:'Conditional incentives', B:'Productivity-first'   }, ch2: { A:'Levy-funded program',B:'Extended Jobseeker'   }, ch3: { A:'Strong regulation', B:'Voluntary code'    } }
+};
+
+const SCORE_CHAPTERS = {
+  sam:   { ch1: 'Career positioning', ch2: 'Reskilling decision', ch3: 'Industry engagement' },
+  priya: { ch1: 'Adoption strategy',  ch2: 'People investment',   ch3: 'Vendor response'     },
+  james: { ch1: 'Incentive design',   ch2: 'Displacement policy', ch3: 'Competition policy'  }
+};
+
+// ═══ INDUSTRY METRICS (shared across characters — macro context) ══════════
 
 const WORLDS_COMPARE = [
   { metric: 'Bookkeeper employment vs 2024', upside: '−10%', baseline: '−20%', downside: '−35%' },
-  { metric: 'Senior advisory employment', upside: '+20%', baseline: '+8%', downside: '+2%' },
-  { metric: 'Small practice market share', upside: 'Stable', baseline: '−12%', downside: '−25%' },
-  { metric: 'Consumer access to advice', upside: 'Improved', baseline: 'Mixed', downside: 'Worsened' },
-  { metric: 'Wage polarisation (accounting)', upside: 'Contained', baseline: 'Increased', downside: 'Significantly increased' },
-  { metric: 'Platform concentration (HHI)', upside: 'Moderate', baseline: 'High', downside: 'Very high' }
+  { metric: 'Senior advisory employment',    upside: '+20%', baseline: '+8%',  downside: '+2%'  },
+  { metric: 'Small practice market share',   upside: 'Stable', baseline: '−12%', downside: '−25%' },
+  { metric: 'Consumer access to advice',     upside: 'Improved', baseline: 'Mixed', downside: 'Worsened' },
+  { metric: 'Wage polarisation (accounting)',upside: 'Contained', baseline: 'Increased', downside: 'Significantly increased' },
+  { metric: 'Platform concentration (HHI)',  upside: 'Moderate', baseline: 'High', downside: 'Very high' }
 ];
 
-// ═══ APPLICATION STATE ═══════════════════════════════════════════════════════
+// ═══ ENDINGS ═════════════════════════════════════════════════════════════════
+
+const ENDINGS = {
+  upside: {
+    key:'upside', title:'Upside 2030', cssClass:'ending-upside', colorVar:'var(--upside)',
+    subtitle:'Proactive decisions bent the curve. Disruption was real — but managed, distributed, and navigated with intention.',
+    metrics:[
+      { val:'−10%', label:'Bookkeeper employment vs 2024', note:'Many retrained into advisory-support and AI-oversight roles via funded pathways' },
+      { val:'+20%', label:'Senior advisory employment', note:'AI handling compliance freed senior partners for higher-value judgment work' },
+      { val:'Stable', label:'Small practice market share', note:'Open APIs let small firms integrate AI without full platform lock-in' },
+      { val:'↑ Improved', label:'Consumer access to advice', note:'AI lowered cost of basic advisory; access broadened into underserved segments' }
+    ],
+    charOutcomes: {
+      sam: `It\'s a Thursday afternoon in 2030. You\'re on a call with a small business owner in Bendigo — a complex property disposal the AI flagged for human review. You spend 90 minutes working through it together. This is the kind of problem-solving you always hoped accounting could be.<br><br>You\'re an AI oversight specialist now. Salary: $83,000. The 6-month credential was Thursday evenings and Saturday mornings for half a year — funded 70% through the platform revenue levy that Treasury attached to the reskilling scheme. You didn\'t know the policy team that designed it. You just know it was there when you needed it.<br><br>Three colleagues from your cohort are in similar roles. Two aren\'t in accounting anymore — but they had more options and more time than they would have without the fund. The firms that kept their teams — using AI to multiply output rather than cut headcount — still had accountants in them. Yours was one of them. You moved at the right moment, and the infrastructure existed to help you move.`,
+      priya: `Finance team of 3 (down from 4 in 2024). Average output per team member is 60% higher than it was. The team member who struggled through the AI workflow transition — eight years with the company — accessed the national reskilling fund that covered 70% of her credential costs. You covered the remaining 30% and called it the best investment you made in 2025. She\'s now at a specialist practice where her institutional knowledge is valued. The board stopped questioning the headcount after the management reports started landing a week earlier and two depth-levels deeper.<br><br>When the platform tried to raise pricing 48% in 2027, the open API framework that came out of Treasury\'s structural review gave you real switching options. You didn\'t need to use them — the vendor backed down when three industry groups threatened collective migration. But the threat was credible because of the regulatory architecture underneath it. The government consultation you submitted to in 2026 was part of how that architecture got built.`,
+      james: `Australia\'s 2028 OECD Employment Outlook submission included a case study on the professional services transition. Three countries have adopted versions of the conditional incentive framework. The reskilling fund enrolled 48,000 workers nationally — 60% re-employed at equivalent wage within 24 months. Bookkeeper unemployment is 2 percentage points above pre-AI baseline: meaningfully better than the UK (5pp) and US (6pp) equivalents.<br><br>The fund\'s intake data showed a consistent profile: most enrolees were junior compliance accountants at mid-tier firms, average age 26, average HECS debt $34,000. They enrolled in Thursday evenings and Saturday mornings, completed credentials in six months, and moved into oversight and advisory-support roles. The modelling said they would. The data confirmed it. The firms that retained their teams — treating AI as augmentation rather than substitution — provided the landing zone those workers needed.<br><br>The ACCC open API framework is operating. Platform pricing is competitive — CFOs who pushed back on their vendors in 2026 had a credible threat for the first time. You were asked to present at the 2029 G20 Labour Ministers meeting in Rome. The paper you wrote in 2024 is still the one that gets cited.`
+    },
+    econ: 'The upside scenario reflects the reinstatement effect operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption. The productivity effect was strong; the policy environment gave the reinstatement effect the infrastructure to function.',
+    kpiTable: `<div class="chart-box" style="margin-top:20px"><p class="chart-title">Policy KPIs — Upside 2030</p><table class="comparison-table"><thead><tr><th>KPI</th><th>Target</th><th>Baseline (no policy)</th></tr></thead><tbody><tr><td>Displaced workers re-employed at equivalent wage within 24 months</td><td style="color:var(--upside);font-weight:600">60%</td><td style="color:var(--text-muted)">~35%</td></tr><tr><td>Credential completions via reskilling fund (national)</td><td style="color:var(--upside);font-weight:600">48,000</td><td style="color:var(--text-muted)">~8,000</td></tr><tr><td>Small practice market share vs 2024</td><td style="color:var(--upside);font-weight:600">Stable (±3%)</td><td style="color:var(--text-muted)">−25%</td></tr><tr><td>SME platform switching cost</td><td style="color:var(--upside);font-weight:600">Reduced by open APIs</td><td style="color:var(--text-muted)">High — lock-in persists</td></tr></tbody></table></div>`
+  },
+  baseline: {
+    key:'baseline', title:'Baseline 2030', cssClass:'ending-baseline', colorVar:'var(--baseline)',
+    subtitle:'Partial decisions, uneven outcomes. The transition happened — just without a full safety net. Some made it through. Others didn\'t.',
+    metrics:[
+      { val:'−20%', label:'Bookkeeper employment vs 2024', note:'Significant displacement; reskilling access uneven across income and geography' },
+      { val:'+8%',  label:'Senior advisory employment', note:'Growth real but insufficient to absorb displaced workers from routine roles' },
+      { val:'−12%', label:'Small practice market share', note:'Platforms captured SME compliance; advisory held but margins compressed' },
+      { val:'↗ Mixed', label:'Consumer access to advice', note:'Improved at low end; mid-market advisory costs rose as practices consolidated' }
+    ],
+    charOutcomes: {
+      sam: `You retrained — but on your own. $14,000 of savings. Eighteen months of part-time TAFE completed after work hours while your role was shrinking. You\'re now in an advisory-support role at a smaller firm, earning $74,000. You made it.<br><br>A reskilling fund did launch — you heard about it from a colleague. The eligibility criteria were narrower than the original proposal: your credential type didn\'t qualify. The fund was $380 million rather than the $1.2 billion the initial modelling called for. Your colleague got in. You didn\'t. You used your savings instead.<br><br>Three colleagues from your cohort are in entirely different fields. One is in insurance processing. One drives for a delivery platform. You got through because you had savings and a partner who could carry some weight while you studied. They didn\'t have that cushion. The transition happened — it just wasn\'t designed to catch everyone.`,
+      priya: `Finance team of 2 (down from 4). Costs are 25% below 2024 baseline — not the 40% the vendor promised, but real. A compliance edge case in 2026 that your old senior accountant would have caught in ten minutes cost $40,000 to resolve through an external firm. The board recorded the restructure as a success. The actual P&L is more complicated.<br><br>The government consultation on open data standards closed in late 2026. A voluntary code emerged — your vendor co-designed it at the working group and signed it at the press conference. The pricing increase came eight months later. The code contained no binding pricing constraints. You absorbed it.<br><br>You manage the finance function. It works, technically. You sleep okay most nights — just not the night before the annual software contract renewal.`,
+      james: `The reskilling fund launched underfunded — $380M, not the $1.2B you modelled. Eligibility criteria were too narrow; many of the most exposed workers — junior compliance accountants at mid-tier firms, precisely the profile the original modelling targeted — found their credential type excluded. Many retrained anyway: independently, at their own cost, over 18 months of night classes. Some made it. Some didn\'t have the savings to.<br><br>The platform regulation response was a voluntary code. The two dominant vendors co-designed it at the working group and signed it publicly. Pricing increases across the sector followed within twelve months. The code contained no binding constraints.<br><br>Australia is mid-table in the OECD on professional services displacement outcomes. Not the success story you hoped for. Not the disaster you feared. A Senate committee has asked you to appear and explain the gap between Year 1 forecasts and actual outcomes. You\'re preparing the brief.`
+    },
+    econ: 'The baseline reflects so-so automation without sufficient policy offset. The productivity effect materialised — AI-enabled firms produced more output per worker — but the reinstatement effect was weak and unevenly distributed. New roles emerged but without institutional reskilling support, access was determined by income, employer, and geography rather than effort or ability. Concentration proceeded without structural intervention, compounding the distributional problem Acemoglu &amp; Restrepo (2019) identify.'
+  },
+  downside: {
+    key:'downside', title:'Downside 2030', cssClass:'ending-downside', colorVar:'var(--downside)',
+    subtitle:'Rapid concentration, minimal safety net. Productivity gains flowed to platforms and large firms. Workers and small practices absorbed the cost.',
+    metrics:[
+      { val:'−35%', label:'Bookkeeper employment vs 2024', note:'Routine compliance fully automated; no reskilling pathway existed at scale' },
+      { val:'+2%',  label:'Senior advisory employment', note:'Minimal growth — consolidation reduced total industry headcount' },
+      { val:'−25%', label:'Small practice market share', note:'Platforms captured SME market; mid-tier practices largely closed or merged away' },
+      { val:'↓ Worsened', label:'Consumer access to advice', note:'Basic services disappeared from regional areas; advisory prices rose at top end' }
+    ],
+    charOutcomes: {
+      sam: `Your contract wasn\'t renewed in 2025. You were 27. Fourteen months of unemployment, watching a field you trained in close off role by role. You eventually retrained into insurance claims processing — independently, without support, at your own cost. Salary: $51,000.<br><br>The adoption wave that hit your firm hit every mid-tier firm. CFOs had taken vendor efficiency pitches to their boards and the boards had accepted them. The maths was obvious. The externalities weren\'t in the ROI model. A reskilling fund had been proposed — your job agency mentioned it once, said it was being costed. It launched eighteen months later, underfunded, with eligibility criteria that didn\'t cover your credential type.<br><br>Your HECS debt from your accounting degree is still there. You were in the wrong role at the wrong time — and the system offered you Jobseeker, a job agency appointment, and no pathway back into the profession you trained for. You weren\'t alone: 23,000 bookkeepers and junior accountants left the profession in the same 18-month window. Most of them didn\'t choose to go.`,
+      priya: `Finance team of 1 — you have a junior who handles data entry. Platform costs: $38,000 annually, up from $12,000 at contract signature. The 40% saving you presented to the board in 2024 is now a net cost when you account for platform escalation, one major compliance error ($55,000 in external remediation fees), and the institutional knowledge that walked out in 2025 and was never adequately replaced.<br><br>A government consultation on platform regulation closed in 2026. A voluntary code was announced. Your vendor signed it at the press conference. The pricing increase came eight months later. The code had no binding mechanism and you\'d been captive long before anyone thought to regulate it.<br><br>The junior who stayed — the last of a team that was four — applied for the reskilling scheme, found she didn\'t qualify, and kept working anyway. She does what three people used to do. The board records the original decision as the right one — the cost savings were real when they were taken. You\'ve stopped trying to correct that narrative. The finance function runs. Just not as well as it did, or as cheaply, or with the depth you used to have.`,
+      james: `<em>"Lost in Transition: AI Displacement in Professional Services"</em> — the Senate inquiry final report. Section 4.2 discusses Treasury\'s 2024 decision not to attach conditions to AI investment incentives, and the 18-month delay before any displacement funding was committed. The finding was not that the policy was wrong in principle — it was that the timing was wrong and the safety net wasn\'t built before the wave arrived.<br><br>The report profiled three workers in case studies. One was a junior compliance accountant at a mid-tier firm — contract not renewed in 2025, 27 years old, fourteen months of unemployment, retrained independently into insurance claims processing at her own cost. Another ran the finance function at a construction company: team cut from four to one, now paying three times the original platform licensing cost with no viable alternative. "The consultation produced a voluntary code," she told the committee. "My vendor signed it at a press conference. The price increase came eight months later."<br><br>You were moved to a different brief — trade policy — in 2027. You\'re competent there. The draft reskilling fund proposal — the $1.2B one, the one you couldn\'t get the numbers for in 2024 — is still in a folder on your desktop. You haven\'t opened it. You probably should.`
+    },
+    econ: 'The downside is the full Acemoglu &amp; Restrepo (2019) so-so automation outcome: labour displaced without a strong reinstatement effect or policy offset. The productivity channel operated — AI-enabled firms produced more output — but gains concentrated in platform incumbents and large firms with data and compute advantages, not in workers or consumers. The competition failure compounded the labour market failure: productivity gains that should have distributed through market competition instead compounded into structural inequality.'
+  }
+};
+
+// ═══ APPLICATION STATE ════════════════════════════════════════════════════════
 
 const state = { character: null, ch1: null, ch2: null, ch3: null, score: 0, charts: {} };
 
@@ -810,7 +674,6 @@ const state = { character: null, ch1: null, ch2: null, ch3: null, score: 0, char
 function revealSection(id, afterReveal) {
   const el = document.getElementById(id);
   el.classList.add('revealed');
-  // Scroll to the newly revealed section after a tick so layout has settled
   requestAnimationFrame(() => {
     setTimeout(() => {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -819,87 +682,49 @@ function revealSection(id, afterReveal) {
   });
 }
 
-// ═══ MACRO DASHBOARD ═════════════════════════════════════════════════════════
+// ═══ MACRO DASHBOARD ══════════════════════════════════════════════════════════
 
 function updateDashboard() {
   const c = state.character ? CHARS[state.character] : null;
+  document.getElementById('md-icon').textContent  = c ? c.icon : '—';
+  document.getElementById('md-name').textContent  = c ? c.name : 'Choose a character';
+  document.getElementById('md-name').style.color  = c ? c.accent : 'var(--text-muted)';
+  document.getElementById('md-persp').textContent = c ? c.perspective : '';
 
-  // Character
-  document.getElementById('md-icon').textContent   = c ? c.icon : '—';
-  document.getElementById('md-name').textContent   = c ? c.name : 'Choose a character';
-  document.getElementById('md-name').style.color   = c ? c.accent : 'var(--text-muted)';
-  document.getElementById('md-persp').textContent  = c ? c.perspective : '';
+  const labels = c ? DASH_LABELS[state.character] : null;
+  const setChoice = (elId, choice, labels) => {
+    const el = document.getElementById(elId);
+    el.textContent = (choice && labels) ? labels[choice] : 'Pending…';
+    el.className = 'md-ch-val' + (choice ? ' done' : '');
+  };
+  setChoice('md-ch1-val', state.ch1, labels && labels.ch1);
+  setChoice('md-ch2-val', state.ch2, labels && labels.ch2);
+  setChoice('md-ch3-val', state.ch3, labels && labels.ch3);
 
-  // Chapter choice labels
-  const ch1Labels = { A: 'Fast-track', B: 'Wait & see', null: 'Pending…' };
-  const ch2Labels = { A: 'Reskilling Fund', B: 'Market-led', C: 'No response', null: 'Pending…' };
-  const ch3Labels = { A: 'Open APIs', B: 'Consolidate', null: 'Pending…' };
-
-  const ch1El = document.getElementById('md-ch1-val');
-  const ch2El = document.getElementById('md-ch2-val');
-  const ch3El = document.getElementById('md-ch3-val');
-
-  ch1El.textContent = ch1Labels[state.ch1] || 'Pending…';
-  ch1El.className   = 'md-ch-val' + (state.ch1 ? ' done' : '');
-  ch2El.textContent = ch2Labels[state.ch2] || 'Pending…';
-  ch2El.className   = 'md-ch-val' + (state.ch2 ? ' done' : '');
-  ch3El.textContent = ch3Labels[state.ch3] || 'Pending…';
-  ch3El.className   = 'md-ch-val' + (state.ch3 ? ' done' : '');
-
-  // Score dots
   document.getElementById('md-score-num').textContent = state.score;
-  [1,2,3].forEach(n => {
-    document.getElementById(`md-d${n}`).classList.toggle('active', state.score >= n);
-  });
+  [1,2,3].forEach(n => document.getElementById(`md-d${n}`).classList.toggle('active', state.score >= n));
 
-  // Trajectory
   const made = [state.ch1, state.ch2, state.ch3].filter(Boolean).length;
   const maxPossible = state.score + (3 - made);
   const trajEl = document.getElementById('md-traj');
+  if (!c) { trajEl.textContent = '— Select a character'; trajEl.style.color = 'var(--text-muted)'; }
+  else if (made === 0) { trajEl.textContent = '— In progress'; trajEl.style.color = 'var(--text-muted)'; }
+  else if (state.score >= 2) { trajEl.textContent = '▲ Upside likely'; trajEl.style.color = 'var(--upside)'; }
+  else if (maxPossible < 2) { trajEl.textContent = '▼ Downside likely'; trajEl.style.color = 'var(--downside)'; }
+  else { trajEl.textContent = '→ Baseline track'; trajEl.style.color = 'var(--baseline)'; }
 
-  if (!c) {
-    trajEl.textContent = '— Select a character';
-    trajEl.style.color = 'var(--text-muted)';
-  } else if (made === 0) {
-    trajEl.textContent = '— In progress';
-    trajEl.style.color = 'var(--text-muted)';
-  } else if (state.score >= 2) {
-    trajEl.textContent = '▲ Upside likely';
-    trajEl.style.color = 'var(--upside)';
-  } else if (maxPossible < 2) {
-    trajEl.textContent = '▼ Downside likely';
-    trajEl.style.color = 'var(--downside)';
-  } else {
-    trajEl.textContent = '→ Baseline track';
-    trajEl.style.color = 'var(--baseline)';
-  }
-
-  // Displacement projection (tightens as choices lock in)
-  const dispMap = { 0: '−35%', 1: '−20%', 2: '−12%', 3: '−10%' };
+  const dispMap = { 0:'−35%', 1:'−20%', 2:'−12%', 3:'−10%' };
   const dispEl = document.getElementById('md-disp');
-  if (made === 0) {
-    dispEl.textContent = '−10–35%';
-    dispEl.style.color = 'var(--text-muted)';
-  } else {
-    dispEl.textContent = dispMap[state.score];
-    dispEl.style.color = state.score >= 2 ? 'var(--upside)' : state.score === 1 ? 'var(--baseline)' : 'var(--downside)';
-  }
+  if (made === 0) { dispEl.textContent = '−10–35%'; dispEl.style.color = 'var(--text-muted)'; }
+  else { dispEl.textContent = dispMap[state.score]; dispEl.style.color = state.score >= 2 ? 'var(--upside)' : state.score === 1 ? 'var(--baseline)' : 'var(--downside)'; }
 
-  // Concentration
   const concEl = document.getElementById('md-conc');
-  if (!state.ch3) {
-    concEl.textContent = '—';
-    concEl.style.color = 'var(--text-muted)';
-  } else if (state.ch3 === 'A') {
-    concEl.textContent = 'Controlled';
-    concEl.style.color = 'var(--upside)';
-  } else {
-    concEl.textContent = 'High';
-    concEl.style.color = 'var(--downside)';
-  }
+  if (!state.ch3) { concEl.textContent = '—'; concEl.style.color = 'var(--text-muted)'; }
+  else if (state.ch3 === 'A') { concEl.textContent = 'Controlled'; concEl.style.color = 'var(--upside)'; }
+  else { concEl.textContent = 'High'; concEl.style.color = 'var(--downside)'; }
 }
 
-// ═══ INIT — BUILD CHARACTER GRID ═════════════════════════════════════════════
+// ═══ CHARACTER GRID ═══════════════════════════════════════════════════════════
 
 function buildCharGrid() {
   const grid = document.getElementById('char-grid');
@@ -918,17 +743,16 @@ function buildCharGrid() {
     card.setAttribute('role', 'listitem');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click', () => selectChar(id));
-    card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectChar(id); } });
+    card.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') { e.preventDefault(); selectChar(id); } });
     grid.appendChild(card);
   });
 }
 
-// ═══ CHARACTER SELECTION ═════════════════════════════════════════════════════
+// ═══ CHARACTER SELECTION ══════════════════════════════════════════════════════
 
 function selectChar(id) {
   state.character = id;
   document.body.classList.add('story-active');
-
   const c = CHARS[id];
   const intro = document.getElementById('prologue-intro');
   intro.style.borderLeftColor = c.accent;
@@ -940,40 +764,57 @@ function selectChar(id) {
       <div class="char-intro-note">${c.note}</div>
     </div>
   `;
-
   updateDashboard();
   revealSection('sec-prologue', buildTaskChart);
 }
 
-// ═══ CHAPTER RENDERING ═══════════════════════════════════════════════════════
+// ═══ CHAPTER RENDERING ════════════════════════════════════════════════════════
+
+function renderStats(containerId, stats) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = stats.map(s => `
+    <div class="stat-card"><div class="stat-value">${s.val}</div><div class="stat-label">${s.lbl}</div></div>
+  `).join('');
+}
 
 function renderCh1() {
-  const c = state.character;
-  document.getElementById('ch1-narrative').innerHTML = CH1.narratives[c];
-  document.getElementById('ch1-question').textContent = CH1.question[c];
-  document.getElementById('ch1-qsub').textContent = CH1.qsub;
-  buildChoices('ch1-choices', [CH1.choiceA, CH1.choiceB], (choice, idx, cid) => makeChoice(1, choice, idx, cid));
+  const story = STORIES[state.character].ch1;
+  document.getElementById('ch1-badge').textContent     = story.badge;
+  document.getElementById('ch1-narrative').innerHTML   = story.narrative;
+  document.getElementById('ch1-econ').innerHTML        = story.econ;
+  document.getElementById('ch1-chart-title').textContent = story.chartTitle;
+  document.getElementById('ch1-chart-source').textContent = story.chartSource;
+  document.getElementById('ch1-question').textContent  = story.question;
+  document.getElementById('ch1-qsub').textContent      = story.qsub;
+  renderStats('ch1-stats', story.stats);
+  buildChoices('ch1-choices', [story.choiceA, story.choiceB], (ch, idx, cid) => makeChoice(1, ch, idx, cid));
 }
 
 function renderCh2() {
-  const c = state.character;
-  const fast = state.ch1 === 'A';
-  document.getElementById('ch2-narrative').innerHTML = CH2.narratives[c][fast ? 'A' : 'B'];
-  document.getElementById('ch2-question').textContent = CH2.question[c];
-  document.getElementById('ch2-qsub').textContent = CH2.qsub;
-  const statEl = document.getElementById('ch2-stat-val');
-  if (fast) { statEl.textContent = '−14%'; statEl.style.color = 'var(--downside)'; }
-  else { statEl.textContent = '−8%'; statEl.style.color = 'var(--accent)'; }
-  document.getElementById('ch2-chart-label').textContent = fast ? '(fast-track adoption)' : '(gradual adoption)';
-  buildChoices('ch2-choices', [CH2.choiceA, CH2.choiceB, CH2.choiceC], (choice, idx, cid) => makeChoice(2, choice, idx, cid));
+  const story = STORIES[state.character].ch2;
+  const prev = state.ch1;
+  const statData = story.stats[prev] || story.stats;
+  document.getElementById('ch2-badge').textContent     = story.badge;
+  document.getElementById('ch2-narrative').innerHTML   = (story.narrative[prev] || story.narrative);
+  document.getElementById('ch2-econ').innerHTML        = story.econ;
+  document.getElementById('ch2-question').textContent  = story.question;
+  document.getElementById('ch2-qsub').textContent      = story.qsub;
+  document.getElementById('ch2-chart-label').textContent = prev === 'A' ? '(proactive path)' : '(reactive path)';
+  // dynamic stat
+  const statsEl = document.getElementById('ch2-stats');
+  statsEl.innerHTML = `<div class="stat-card"><div class="stat-value" style="color:${prev==='A'?'var(--upside)':'var(--downside)'}">${statData.val}</div><div class="stat-label">${statData.lbl}</div></div>`;
+  buildChoices('ch2-choices', [story.choiceA, story.choiceB], (ch, idx, cid) => makeChoice(2, ch, idx, cid));
 }
 
 function renderCh3() {
-  const c = state.character;
-  document.getElementById('ch3-narrative').innerHTML = CH3.narratives[c];
-  document.getElementById('ch3-question').textContent = CH3.question[c];
-  document.getElementById('ch3-qsub').textContent = CH3.qsub;
-  buildChoices('ch3-choices', [CH3.choiceA, CH3.choiceB], (choice, idx, cid) => makeChoice(3, choice, idx, cid));
+  const story = STORIES[state.character].ch3;
+  document.getElementById('ch3-badge').textContent     = story.badge;
+  document.getElementById('ch3-narrative').innerHTML   = story.narrative;
+  document.getElementById('ch3-econ').innerHTML        = story.econ;
+  document.getElementById('ch3-question').textContent  = story.question;
+  document.getElementById('ch3-qsub').textContent      = story.qsub;
+  renderStats('ch3-stats', story.stats);
+  buildChoices('ch3-choices', [story.choiceA, story.choiceB], (ch, idx, cid) => makeChoice(3, ch, idx, cid));
 }
 
 function populateCharBar(barId) {
@@ -983,7 +824,7 @@ function populateCharBar(barId) {
   el.innerHTML = `
     <span class="char-bar-icon">${c.icon}</span>
     <div><span class="char-bar-name" style="color:${c.accent}">${c.name}</span> <span class="char-bar-role">— ${c.role}</span></div>
-    <div class="char-bar-score">Policy score: <span>${state.score}</span>/3</div>
+    <div class="char-bar-score">Score: <span>${state.score}</span>/3</div>
   `;
 }
 
@@ -999,33 +840,27 @@ function buildChoices(containerId, choices, onSelect) {
   });
 }
 
-// ═══ CHOICE LOCK-IN ══════════════════════════════════════════════════════════
+// ═══ CHOICE LOCK-IN ═══════════════════════════════════════════════════════════
 
 function lockInChoice(containerId, chosenIndex) {
   const container = document.getElementById(containerId);
-  const buttons = container.querySelectorAll('.choice-btn');
-  buttons.forEach((btn, i) => {
+  container.querySelectorAll('.choice-btn').forEach((btn, i) => {
     btn.disabled = true;
     btn.classList.add(i === chosenIndex ? 'choice-chosen' : 'choice-rejected');
   });
   const hint = document.createElement('div');
   hint.className = 'continue-hint';
-  hint.innerHTML = '↓ Loading next section…';
+  hint.innerHTML = '↓ Loading next chapter…';
   container.insertAdjacentElement('afterend', hint);
 }
 
-// ═══ CHOICE LOGIC ════════════════════════════════════════════════════════════
+// ═══ CHOICE LOGIC ═════════════════════════════════════════════════════════════
 
 function makeChoice(chapter, choice, choiceIndex, containerId) {
   lockInChoice(containerId, choiceIndex);
   state[`ch${chapter}`] = choice;
-  if (chapter === 1 && choice === 'A') state.score++;
-  if (chapter === 2 && choice === 'A') state.score++;
-  if (chapter === 3 && choice === 'A') state.score++;
-
+  if (choice === 'A') state.score++;
   updateDashboard();
-
-  // Slight delay lets the lock-in animation register before the next section scrolls in
   setTimeout(() => {
     if (chapter < 3) showChapter(chapter + 1);
     else renderEnding();
@@ -1033,39 +868,22 @@ function makeChoice(chapter, choice, choiceIndex, containerId) {
 }
 
 function showChapter(num) {
-  if (num === 1) {
-    populateCharBar('ch1-charbar');
-    renderCh1();
-    revealSection('sec-ch1', buildTimelineChart);
-  } else if (num === 2) {
-    populateCharBar('ch2-charbar');
-    renderCh2();
-    revealSection('sec-ch2', buildEmploymentChart);
-  } else if (num === 3) {
-    populateCharBar('ch3-charbar');
-    renderCh3();
-    revealSection('sec-ch3', buildMarketChart);
-  }
+  if (num === 1) { populateCharBar('ch1-charbar'); renderCh1(); revealSection('sec-ch1', buildTimelineChart); }
+  if (num === 2) { populateCharBar('ch2-charbar'); renderCh2(); revealSection('sec-ch2', buildEmploymentChart); }
+  if (num === 3) { populateCharBar('ch3-charbar'); renderCh3(); revealSection('sec-ch3', buildMarketChart); }
 }
 
-// ═══ ENDING ══════════════════════════════════════════════════════════════════
+// ═══ ENDING ═══════════════════════════════════════════════════════════════════
 
 function renderEnding() {
-  let endKey;
-  if (state.score >= 2) endKey = 'upside';
-  else if (state.score === 1) endKey = 'baseline';
-  else endKey = 'downside';
-
+  const endKey = state.score >= 2 ? 'upside' : state.score === 1 ? 'baseline' : 'downside';
   const e = ENDINGS[endKey];
   const c = state.character;
   const char = CHARS[c];
+  const sl = SCORE_LABELS[c];
+  const sc = SCORE_CHAPTERS[c];
 
-  const ch1Label = state.ch1 === 'A' ? 'Fast-track AI incentives' : 'Wait and see';
-  const ch2Label = state.ch2 === 'A' ? 'Reskilling Fund' : state.ch2 === 'B' ? 'Market-led retraining' : 'No coordinated response';
-  const ch3Label = state.ch3 === 'A' ? 'Mandate open APIs' : 'Let market consolidate';
-  const pts1 = state.ch1 === 'A' ? 1 : 0;
-  const pts2 = state.ch2 === 'A' ? 1 : 0;
-  const pts3 = state.ch3 === 'A' ? 1 : 0;
+  const pts = [state.ch1, state.ch2, state.ch3].map(ch => ch === 'A' ? 1 : 0);
 
   const metricsHTML = e.metrics.map(m => `
     <div class="outcome-card">
@@ -1075,8 +893,8 @@ function renderEnding() {
     </div>`).join('');
 
   const tableRows = WORLDS_COMPARE.map(row => {
-    const isU = endKey === 'upside', isB = endKey === 'baseline', isD = endKey === 'downside';
-    return `<tr${isU||isB||isD ? ' class="current-ending"' : ''}>
+    const isU=endKey==='upside', isB=endKey==='baseline', isD=endKey==='downside';
+    return `<tr>
       <td style="color:var(--text-muted)">${row.metric}</td>
       <td style="color:var(--upside);font-weight:${isU?700:400}">${row.upside}${isU?' ◀':''}</td>
       <td style="color:var(--baseline);font-weight:${isB?700:400}">${row.baseline}${isB?' ◀':''}</td>
@@ -1091,19 +909,19 @@ function renderEnding() {
       <div class="ending-subtitle">${e.subtitle}</div>
     </div>
 
-    <span class="section-label">Your policy choices</span>
+    <span class="section-label">Your decisions</span>
     <div class="score-summary">
       <div class="score-row">
-        <span class="score-choice">Chapter 1 — Adoption speed: <em>${ch1Label}</em></span>
-        <span class="${pts1 ? 'score-pts-good' : 'score-pts-bad'}">${pts1 ? '+1 pt' : '0 pts'}</span>
+        <span class="score-choice">${sc.ch1}: <em>${sl.ch1[state.ch1]}</em></span>
+        <span class="${pts[0]?'score-pts-good':'score-pts-bad'}">${pts[0]?'+1 pt':'0 pts'}</span>
       </div>
       <div class="score-row">
-        <span class="score-choice">Chapter 2 — Displacement response: <em>${ch2Label}</em></span>
-        <span class="${pts2 ? 'score-pts-good' : 'score-pts-bad'}">${pts2 ? '+1 pt' : '0 pts'}</span>
+        <span class="score-choice">${sc.ch2}: <em>${sl.ch2[state.ch2]}</em></span>
+        <span class="${pts[1]?'score-pts-good':'score-pts-bad'}">${pts[1]?'+1 pt':'0 pts'}</span>
       </div>
       <div class="score-row">
-        <span class="score-choice">Chapter 3 — Competition policy: <em>${ch3Label}</em></span>
-        <span class="${pts3 ? 'score-pts-good' : 'score-pts-bad'}">${pts3 ? '+1 pt' : '0 pts'}</span>
+        <span class="score-choice">${sc.ch3}: <em>${sl.ch3[state.ch3]}</em></span>
+        <span class="${pts[2]?'score-pts-good':'score-pts-bad'}">${pts[2]?'+1 pt':'0 pts'}</span>
       </div>
       <div class="score-row">
         <span style="color:var(--text)">Policy score</span>
@@ -1121,7 +939,7 @@ function renderEnding() {
       <h3>What the economics says</h3>
       <ul class="mechanism-list">
         <li><strong>Task substitution (Autor, Levy &amp; Murnane, 2003):</strong> AI replaces routine cognitive tasks — reconciliation, basic tax prep, payroll — without eliminating the profession wholesale. The skill mix required within accounting shifts permanently upward.</li>
-        <li><strong>So-so automation (Acemoglu &amp; Restrepo, 2019):</strong> AI may substitute labour without generating sufficient productivity gains to trigger the reinstatement effect — new tasks that create jobs. The reinstatement effect requires institutional support; it doesn't happen automatically.</li>
+        <li><strong>So-so automation (Acemoglu &amp; Restrepo, 2019):</strong> AI may substitute labour without generating sufficient productivity gains to trigger the reinstatement effect — new tasks that create jobs. The reinstatement effect requires institutional support; it doesn\'t happen automatically.</li>
         <li><strong>Market concentration:</strong> Firms with compute and data advantages capture disproportionate gains. Without competition policy, this compounds: productivity gains flow to platform incumbents, not to workers, consumers, or smaller firms.</li>
         <li><strong>In this scenario:</strong> ${e.econ}</li>
       </ul>
@@ -1140,7 +958,6 @@ function renderEnding() {
         <tbody>${tableRows}</tbody>
       </table>
     </div>
-
     <div class="chart-box">
       <p class="chart-title">Bookkeeper employment index 2024–2030 — all three scenarios</p>
       <canvas id="chart-ending" height="200"></canvas>
@@ -1151,7 +968,7 @@ function renderEnding() {
   revealSection('sec-ending', () => buildEndingChart(endKey));
 }
 
-// ═══ CHARTS ══════════════════════════════════════════════════════════════════
+// ═══ CHARTS ═══════════════════════════════════════════════════════════════════
 
 function destroyChart(key) {
   if (state.charts[key]) { try { state.charts[key].destroy(); } catch(e) {} state.charts[key] = null; }
@@ -1169,16 +986,16 @@ function buildTaskChart() {
   destroyChart('tasks');
   const ctx = document.getElementById('chart-tasks').getContext('2d');
   const labels = ['Data entry & reconciliation','Payroll processing','Basic tax return prep','Invoice processing','Financial statement drafting','Audit sampling & testing','Tax planning & strategy','Client advisory (financial planning)','Complex M&A due diligence','Regulatory dispute representation'];
-  const data   = [95, 92, 89, 88, 72, 68, 45, 30, 18, 8];
-  const colors = data.map(v => v > 70 ? 'rgba(239,68,68,0.75)' : v > 40 ? 'rgba(245,158,11,0.75)' : 'rgba(16,185,129,0.75)');
+  const data = [95,92,89,88,72,68,45,30,18,8];
+  const colors = data.map(v => v>70?'rgba(239,68,68,0.75)':v>40?'rgba(245,158,11,0.75)':'rgba(16,185,129,0.75)');
   state.charts.tasks = new Chart(ctx, {
-    type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: colors, borderRadius: 5, borderSkipped: false }] },
-    options: { indexAxis: 'y', responsive: true,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.raw}% probability of automation` } } },
-      scales: {
-        x: { min: 0, max: 100, grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af', callback: v => v + '%' } },
-        y: { grid: { display: false }, ticks: { color: '#e2e8f0', font: { size: 11 } } }
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:colors, borderRadius:5, borderSkipped:false }] },
+    options:{ indexAxis:'y', responsive:true,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>` ${c.raw}% probability of automation`}} },
+      scales:{
+        x:{ min:0, max:100, grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af',callback:v=>v+'%'} },
+        y:{ grid:{display:false}, ticks:{color:'#e2e8f0',font:{size:11}} }
       }
     }
   });
@@ -1188,19 +1005,19 @@ function buildTimelineChart() {
   destroyChart('timeline');
   const ctx = document.getElementById('chart-timeline').getContext('2d');
   state.charts.timeline = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['2018','2019','2020','2021','2022','2023','2024'],
-      datasets: [
-        { label: 'Automated bookkeeping', data: [10,16,26,40,60,80,92], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.07)', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'AI tax preparation',   data: [4,8,13,22,38,60,78],  borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.07)', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'AI advisory tools',    data: [2,3,5,9,16,28,44],   borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.07)', tension: 0.4, fill: true, pointRadius: 3 }
+    type:'line',
+    data:{
+      labels:['2018','2019','2020','2021','2022','2023','2024'],
+      datasets:[
+        { label:'Automated bookkeeping', data:[10,16,26,40,60,80,92], borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.07)', tension:0.4, fill:true, pointRadius:3 },
+        { label:'AI tax preparation',    data:[4,8,13,22,38,60,78],  borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,0.07)', tension:0.4, fill:true, pointRadius:3 },
+        { label:'AI advisory tools',     data:[2,3,5,9,16,28,44],   borderColor:'#10b981', backgroundColor:'rgba(16,185,129,0.07)', tension:0.4, fill:true, pointRadius:3 }
       ]
     },
-    options: { responsive: true, ...CHART_DEFAULTS,
-      scales: {
-        x: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' } },
-        y: { min: 0, max: 100, grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af', callback: v => v + '%' }, title: { display: true, text: 'Capability maturity %', color: '#9ca3af', font: { size: 11 } } }
+    options:{ responsive:true, ...CHART_DEFAULTS,
+      scales:{
+        x:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'} },
+        y:{ min:0, max:100, grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af',callback:v=>v+'%'}, title:{display:true,text:'Capability maturity %',color:'#9ca3af',font:{size:11}} }
       }
     }
   });
@@ -1209,22 +1026,24 @@ function buildTimelineChart() {
 function buildEmploymentChart() {
   destroyChart('employment');
   const ctx = document.getElementById('chart-employment').getContext('2d');
-  const fast = state.ch1 === 'A';
+  // For James, ch1 choice directly affects the displacement trajectory (policy decision)
+  // For Sam and Priya, show the industry baseline regardless of their personal decisions
+  const fast = (state.character === 'james') ? (state.ch1 === 'B') : false;
   const yrs = ['2024','2025','2026','2027','2028','2029','2030'];
   state.charts.employment = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: yrs,
-      datasets: [
-        { label: 'Bookkeepers',              data: fast ? [100,87,75,66,60,57,56] : [100,93,86,80,76,73,71], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'Junior accountants',       data: fast ? [100,92,83,75,71,69,68] : [100,95,89,84,81,79,77], borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 3 },
-        { label: 'Senior advisors/partners', data: fast ? [100,104,108,112,116,118,120] : [100,102,105,107,109,110,111], borderColor: '#10b981', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 3 }
+    type:'line',
+    data:{
+      labels:yrs,
+      datasets:[
+        { label:'Bookkeepers',             data:fast?[100,87,75,66,60,57,56]:[100,93,86,80,76,73,71], borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,0.08)', tension:0.4, fill:true, pointRadius:3 },
+        { label:'Junior accountants',      data:fast?[100,92,83,75,71,69,68]:[100,95,89,84,81,79,77], borderColor:'#f59e0b', backgroundColor:'transparent', tension:0.4, fill:false, pointRadius:3 },
+        { label:'Senior advisors/partners',data:fast?[100,104,108,112,116,118,120]:[100,102,105,107,109,110,111], borderColor:'#10b981', backgroundColor:'transparent', tension:0.4, fill:false, pointRadius:3 }
       ]
     },
-    options: { responsive: true, ...CHART_DEFAULTS,
-      scales: {
-        x: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' } },
-        y: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' }, title: { display: true, text: 'Employment index (2024 = 100)', color: '#9ca3af', font: { size: 11 } } }
+    options:{ responsive:true, ...CHART_DEFAULTS,
+      scales:{
+        x:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'} },
+        y:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'}, title:{display:true,text:'Employment index (2024 = 100)',color:'#9ca3af',font:{size:11}} }
       }
     }
   });
@@ -1234,19 +1053,19 @@ function buildMarketChart() {
   destroyChart('market');
   const ctx = document.getElementById('chart-market').getContext('2d');
   state.charts.market = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Big 4 firms','Mid-tier practices','Small practices','AI platforms'],
-      datasets: [
-        { label: '2024 (actual)',               data: [35, 30, 25, 10], backgroundColor: 'rgba(156,163,175,0.45)', borderRadius: 5 },
-        { label: '2030 — no intervention',      data: [44, 14,  7, 35], backgroundColor: 'rgba(239,68,68,0.5)',   borderRadius: 5 },
-        { label: '2030 — with open API mandate',data: [40, 22, 20, 18], backgroundColor: 'rgba(16,185,129,0.5)', borderRadius: 5 }
+    type:'bar',
+    data:{
+      labels:['Big 4 firms','Mid-tier practices','Small practices','AI platforms'],
+      datasets:[
+        { label:'2024 (actual)',               data:[35,30,25,10], backgroundColor:'rgba(156,163,175,0.45)', borderRadius:5 },
+        { label:'2030 — no intervention',      data:[44,14, 7,35], backgroundColor:'rgba(239,68,68,0.5)',   borderRadius:5 },
+        { label:'2030 — with open API mandate',data:[40,22,20,18], backgroundColor:'rgba(16,185,129,0.5)', borderRadius:5 }
       ]
     },
-    options: { responsive: true, ...CHART_DEFAULTS,
-      scales: {
-        x: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' } },
-        y: { max: 55, grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af', callback: v => v + '%' }, title: { display: true, text: 'Market share %', color: '#9ca3af', font: { size: 11 } } }
+    options:{ responsive:true, ...CHART_DEFAULTS,
+      scales:{
+        x:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'} },
+        y:{ max:55, grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af',callback:v=>v+'%'}, title:{display:true,text:'Market share %',color:'#9ca3af',font:{size:11}} }
       }
     }
   });
@@ -1257,38 +1076,34 @@ function buildEndingChart(endKey) {
   const ctx = document.getElementById('chart-ending');
   if (!ctx) return;
   const yrs = ['2024','2025','2026','2027','2028','2029','2030'];
-  const datasets = [
-    { label: 'Upside',   data: [100,95,92,89,88,89,90], borderColor: '#10b981', tension: 0.4, fill: false, pointRadius: 3, borderWidth: endKey === 'upside'   ? 3 : 1.5 },
-    { label: 'Baseline', data: [100,92,85,79,76,77,80], borderColor: '#3b82f6', tension: 0.4, fill: false, pointRadius: 3, borderWidth: endKey === 'baseline' ? 3 : 1.5 },
-    { label: 'Downside', data: [100,88,77,68,63,63,65], borderColor: '#ef4444', tension: 0.4, fill: false, pointRadius: 3, borderWidth: endKey === 'downside' ? 3 : 1.5 }
-  ];
   state.charts.ending = new Chart(ctx.getContext('2d'), {
-    type: 'line',
-    data: { labels: yrs, datasets },
-    options: { responsive: true, ...CHART_DEFAULTS,
-      scales: {
-        x: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' } },
-        y: { grid: { color: 'rgba(55,65,81,0.6)' }, ticks: { color: '#9ca3af' }, title: { display: true, text: 'Bookkeeper employment index (2024=100)', color: '#9ca3af', font: { size: 11 } } }
+    type:'line',
+    data:{ labels:yrs, datasets:[
+      { label:'Upside',   data:[100,95,92,89,88,89,90], borderColor:'#10b981', tension:0.4, fill:false, pointRadius:3, borderWidth:endKey==='upside'?3:1.5 },
+      { label:'Baseline', data:[100,92,85,79,76,77,80], borderColor:'#3b82f6', tension:0.4, fill:false, pointRadius:3, borderWidth:endKey==='baseline'?3:1.5 },
+      { label:'Downside', data:[100,88,77,68,63,63,65], borderColor:'#ef4444', tension:0.4, fill:false, pointRadius:3, borderWidth:endKey==='downside'?3:1.5 }
+    ]},
+    options:{ responsive:true, ...CHART_DEFAULTS,
+      scales:{
+        x:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'} },
+        y:{ grid:{color:'rgba(55,65,81,0.6)'}, ticks:{color:'#9ca3af'}, title:{display:true,text:'Bookkeeper employment index (2024=100)',color:'#9ca3af',font:{size:11}} }
       }
     }
   });
 }
 
-// ═══ RESTART ═════════════════════════════════════════════════════════════════
+// ═══ RESTART ══════════════════════════════════════════════════════════════════
 
 function restart() {
-  state.character = null; state.ch1 = null; state.ch2 = null; state.ch3 = null; state.score = 0;
-  Object.keys(state.charts).forEach(k => { if (state.charts[k]) { try { state.charts[k].destroy(); } catch(e){} state.charts[k] = null; } });
-
-  // Re-lock all story sections
+  state.character=null; state.ch1=null; state.ch2=null; state.ch3=null; state.score=0;
+  Object.keys(state.charts).forEach(k => { if(state.charts[k]){try{state.charts[k].destroy();}catch(e){} state.charts[k]=null;} });
   document.querySelectorAll('.story-section').forEach(s => s.classList.remove('revealed'));
-
   document.body.classList.remove('story-active');
   updateDashboard();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-// ═══ INIT ════════════════════════════════════════════════════════════════════
+// ═══ INIT ═════════════════════════════════════════════════════════════════════
 
 buildCharGrid();
 updateDashboard();
