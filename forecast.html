@@ -26,20 +26,29 @@
 }
 
 html { scroll-behavior: smooth; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+body {
+  font-family: var(--font); background: var(--bg); color: var(--text);
+  min-height: 100vh; line-height: 1.6;
+  transition: padding-right 0.35s ease;
+}
 
-.screen { display: none; }
-.screen.active { display: block; animation: fadeIn 0.45s ease; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+/* ── STORY SECTIONS ── */
+.story-section { display: none; }
+.story-section.revealed { display: block; animation: sectionReveal 0.5s ease both; }
+#sec-character-select { display: block; }
+
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
-.page { padding: 64px 0 96px; }
+.page { padding: 64px 0 72px; }
 
 /* ── TYPOGRAPHY ── */
 .eyebrow {
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
-  text-transform: uppercase; color: var(--accent); margin-bottom: 14px;
-  display: block;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: block;
 }
 .big-heading {
   font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 800;
@@ -61,8 +70,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .char-bar {
   display: flex; align-items: center; gap: 10px;
   background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 10px 16px; margin-bottom: 28px;
-  font-size: 0.84rem;
+  border-radius: 8px; padding: 10px 16px; margin-bottom: 28px; font-size: 0.84rem;
 }
 .char-bar-icon { font-size: 1.3rem; flex-shrink: 0; }
 .char-bar-name { font-weight: 700; }
@@ -94,7 +102,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .stat-value { font-size: 2rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 5px; }
 .stat-label { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; }
 
-/* ── CARDS ── */
+/* ── CHARTS ── */
 .chart-box {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: 12px; padding: 24px; margin: 28px 0;
@@ -115,7 +123,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .narrative-box em { color: var(--accent); font-style: italic; }
 
 /* ── CHARACTER SELECT ── */
-#screen-character-select { background: var(--bg); }
 .hero-wrap { border-bottom: 1px solid var(--border); padding-bottom: 48px; margin-bottom: 48px; }
 .char-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .char-card {
@@ -158,26 +165,107 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .question-heading { font-size: 1.25rem; font-weight: 700; margin-bottom: 6px; }
 .question-sub { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 22px; }
 .choices { display: grid; gap: 12px; }
+
 .choice-btn {
   background: var(--surface); border: 1px solid var(--border); border-radius: 11px;
   padding: 22px 26px; cursor: pointer; text-align: left;
-  transition: border-color 0.18s, background 0.18s, transform 0.12s;
+  transition: border-color 0.18s, background 0.18s, transform 0.12s, opacity 0.2s;
   color: var(--text); font-family: var(--font); width: 100%;
 }
-.choice-btn:hover { border-color: var(--accent); background: var(--accent-dim); transform: translateX(5px); }
-.choice-btn:active { transform: translateX(2px); }
+.choice-btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-dim); transform: translateX(5px); }
+.choice-btn:active:not(:disabled) { transform: translateX(2px); }
 .choice-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
 .choice-text { font-size: 1rem; font-weight: 600; margin-bottom: 5px; }
 .choice-sub { font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+
+/* choice lock-in states */
+.choice-btn.choice-chosen {
+  border-color: var(--accent); background: var(--accent-dim); cursor: default;
+}
+.choice-btn.choice-chosen .choice-label::after { content: ' — CHOSEN ✓'; }
+.choice-btn.choice-rejected { opacity: 0.25; cursor: default; }
+.choice-btn:disabled { pointer-events: none; }
+
+.continue-hint {
+  text-align: center; margin-top: 20px; padding: 12px 16px;
+  font-size: 0.84rem; color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  animation: bob 1.8s ease-in-out infinite;
+}
+@keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+/* ── MACRO DASHBOARD (fixed panel) ── */
+#macro-dash {
+  position: fixed;
+  top: 72px;
+  right: 16px;
+  width: 200px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  z-index: 200;
+  font-size: 0.78rem;
+  display: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* Show dashboard and add body padding on wide screens when story is active */
+@media (min-width: 1120px) {
+  body.story-active { padding-right: 224px; }
+  body.story-active #macro-dash { display: block; }
+}
+
+.md-hdr {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.md-char-block {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  min-height: 32px;
+}
+.md-char-icon { font-size: 1.4rem; flex-shrink: 0; }
+.md-char-name { font-weight: 700; font-size: 0.85rem; line-height: 1.2; }
+.md-char-persp { font-size: 0.68rem; color: var(--text-muted); }
+.md-rule { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.md-section-lbl { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+
+.md-ch-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 7px; gap: 6px;
+}
+.md-ch-tag {
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent); flex-shrink: 0; padding-top: 1px;
+}
+.md-ch-val { font-size: 0.74rem; color: var(--text-muted); text-align: right; line-height: 1.3; }
+.md-ch-val.done { color: var(--text); }
+
+.md-score-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.md-score-num { font-size: 1.4rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.md-score-denom { font-size: 0.72rem; color: var(--text-muted); }
+.md-dots { display: flex; gap: 5px; margin-top: 6px; }
+.md-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.md-dot.active { background: var(--accent); }
+
+.md-traj {
+  font-size: 0.9rem; font-weight: 800; padding: 8px 10px;
+  border-radius: 7px; text-align: center; margin: 4px 0; transition: all 0.4s;
+  background: var(--surface2);
+}
+
+.md-metric { margin-top: 10px; }
+.md-metric-val { font-size: 1.3rem; font-weight: 800; line-height: 1; color: var(--accent); transition: all 0.4s; }
+.md-metric-lbl { font-size: 0.67rem; color: var(--text-muted); line-height: 1.35; margin-top: 2px; }
 
 /* ── ENDING ── */
 .ending-banner {
   text-align: center; padding: 52px 28px; border-radius: 18px;
   margin-bottom: 44px; border: 2px solid;
 }
-.ending-upside  { border-color: var(--upside);   background: rgba(16,185,129,0.06); }
-.ending-baseline{ border-color: var(--baseline);  background: rgba(59,130,246,0.06); }
-.ending-downside{ border-color: var(--downside);  background: rgba(239,68,68,0.06); }
+.ending-upside  { border-color: var(--upside);  background: rgba(16,185,129,0.06); }
+.ending-baseline{ border-color: var(--baseline); background: rgba(59,130,246,0.06); }
+.ending-downside{ border-color: var(--downside); background: rgba(239,68,68,0.06); }
 .ending-year { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
 .ending-title { font-size: clamp(2rem,5vw,3rem); font-weight: 800; margin-bottom: 18px; }
 .ending-subtitle { font-size: 1.05rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
@@ -200,7 +288,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .score-choice { color: var(--text-muted); flex: 1; }
 .score-pts-good { color: var(--upside); font-weight: 700; flex-shrink: 0; }
 .score-pts-bad  { color: var(--text-muted); font-weight: 600; flex-shrink: 0; }
-.score-pts-mid  { color: var(--accent); font-weight: 700; flex-shrink: 0; }
 
 .econ-explainer { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 26px; margin: 20px 0; }
 .econ-explainer h3 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 18px; }
@@ -232,7 +319,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 /* ── RESPONSIVE ── */
 @media (max-width: 620px) {
   .char-grid { grid-template-columns: 1fr; }
-  @media (max-width: 860px) and (min-width: 621px) { .char-grid { grid-template-columns: 1fr 1fr; } }
   .outcome-grid { grid-template-columns: 1fr; }
   .two-col { grid-template-columns: 1fr; }
   .ref-grid { grid-template-columns: 1fr; }
@@ -250,14 +336,75 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
   .comparison-table { font-size: 0.78rem; }
   .comparison-table th, .comparison-table td { padding: 8px 8px; }
 }
+@media (min-width: 621px) and (max-width: 860px) {
+  .char-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 <body>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 1 — CHARACTER SELECT
+     MACRO DASHBOARD — fixed panel, appears once story begins
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-character-select" class="screen active">
+<div id="macro-dash" aria-label="Live policy tracker">
+  <div class="md-hdr">2030 Trajectory</div>
+
+  <div class="md-char-block">
+    <div class="md-char-icon" id="md-icon">—</div>
+    <div>
+      <div class="md-char-name" id="md-name" style="color:var(--text-muted)">Choose a character</div>
+      <div class="md-char-persp" id="md-persp"></div>
+    </div>
+  </div>
+
+  <hr class="md-rule">
+  <div class="md-section-lbl">Policy choices</div>
+  <div class="md-ch-row">
+    <span class="md-ch-tag">Ch 1</span>
+    <span class="md-ch-val" id="md-ch1-val">Pending…</span>
+  </div>
+  <div class="md-ch-row">
+    <span class="md-ch-tag">Ch 2</span>
+    <span class="md-ch-val" id="md-ch2-val">Pending…</span>
+  </div>
+  <div class="md-ch-row">
+    <span class="md-ch-tag">Ch 3</span>
+    <span class="md-ch-val" id="md-ch3-val">Pending…</span>
+  </div>
+
+  <hr class="md-rule">
+  <div class="md-section-lbl" style="margin-bottom:4px">Policy score</div>
+  <div class="md-score-row">
+    <div>
+      <span class="md-score-num" id="md-score-num">0</span>
+      <span class="md-score-denom"> / 3</span>
+    </div>
+    <div class="md-dots">
+      <div class="md-dot" id="md-d1"></div>
+      <div class="md-dot" id="md-d2"></div>
+      <div class="md-dot" id="md-d3"></div>
+    </div>
+  </div>
+
+  <hr class="md-rule">
+  <div class="md-traj" id="md-traj" style="color:var(--text-muted)">— In progress</div>
+
+  <hr class="md-rule">
+  <div class="md-section-lbl">Projected 2030</div>
+  <div class="md-metric">
+    <div class="md-metric-val" id="md-disp">—</div>
+    <div class="md-metric-lbl">Bookkeeper displacement</div>
+  </div>
+  <div class="md-metric">
+    <div class="md-metric-val" id="md-conc">—</div>
+    <div class="md-metric-lbl">Platform concentration</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
+     SECTION 1 — CHARACTER SELECT
+════════════════════════════════════════════════════════════ -->
+<section id="sec-character-select">
   <div class="container page">
     <div class="hero-wrap">
       <span class="eyebrow">ECON1626 — Economics of Artificial Intelligence | Interactive Forecast</span>
@@ -269,12 +416,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     <div class="char-grid" id="char-grid" role="list" aria-label="Choose your character"></div>
     <p style="font-size:0.78rem;color:var(--text-muted);margin-top:28px;">Three perspectives on the same industry crisis — the worker inside it, the regulator shaping it, and the business deciding whether to accelerate it.</p>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 2 — PROLOGUE
+     SECTION 2 — PROLOGUE
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-prologue" class="screen">
+<section id="sec-prologue" class="story-section">
   <div class="container page">
     <div class="progress-bar">
       <div class="progress-step done"></div>
@@ -315,12 +462,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
       <button class="btn btn-secondary" onclick="restart()">← Change character</button>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 3 — CHAPTER 1: THE ADOPTION WAVE
+     SECTION 3 — CHAPTER 1: THE ADOPTION WAVE
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-ch1" class="screen">
+<section id="sec-ch1" class="story-section">
   <div class="container page">
     <div class="progress-bar">
       <div class="progress-step done"></div>
@@ -351,12 +498,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     <p class="question-sub" id="ch1-qsub"></p>
     <div class="choices" id="ch1-choices"></div>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 4 — CHAPTER 2: THE DISPLACEMENT
+     SECTION 4 — CHAPTER 2: THE DISPLACEMENT
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-ch2" class="screen">
+<section id="sec-ch2" class="story-section">
   <div class="container page">
     <div class="progress-bar">
       <div class="progress-step done"></div>
@@ -387,12 +534,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     <p class="question-sub" id="ch2-qsub"></p>
     <div class="choices" id="ch2-choices"></div>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 5 — CHAPTER 3: THE CONCENTRATION PROBLEM
+     SECTION 5 — CHAPTER 3: THE CONCENTRATION PROBLEM
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-ch3" class="screen">
+<section id="sec-ch3" class="story-section">
   <div class="container page">
     <div class="progress-bar">
       <div class="progress-step done"></div>
@@ -423,12 +570,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     <p class="question-sub" id="ch3-qsub"></p>
     <div class="choices" id="ch3-choices"></div>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
-     SCREEN 6 — ENDING
+     SECTION 6 — ENDING
 ════════════════════════════════════════════════════════════ -->
-<div id="screen-ending" class="screen">
+<section id="sec-ending" class="story-section">
   <div class="container page">
     <div class="progress-bar">
       <div class="progress-step done"></div>
@@ -442,14 +589,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 
     <hr class="divider">
 
-    <!-- Uncertainty section -->
     <span class="section-label">Uncertainty &amp; Structural Break Risks</span>
     <div class="econ-callout" style="margin-bottom:12px"><strong>What could make all three scenarios wrong:</strong> These projections assume no AGI-level capability jump before 2030 and that the current regulatory pace holds. A step-change in AI reasoning capability — closing the gap on judgment-intensive advisory tasks — would compress the upside/downside range dramatically. Conversely, a major AI liability or privacy incident could slow adoption across the board, shifting all scenarios toward a later horizon.</div>
     <div class="econ-callout" style="margin-bottom:0"><strong>Data gaps:</strong> The most significant gap is granular task-level time-use data for Australian accounting roles. Frey &amp; Osborne (2013) used US occupational definitions; Australian task profiles may differ, particularly for small-practice generalist accountants who perform advisory and compliance work within the same role. The OECD (2023) acknowledges this methodological constraint explicitly.</div>
 
     <hr class="divider">
 
-    <!-- Methods & References — always visible at end -->
     <span class="section-label">Methods, Data &amp; Limitations</span>
     <div class="two-col">
       <div>
@@ -497,7 +642,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
     </div>
     <p style="font-size:0.72rem;color:var(--text-muted);margin-top:20px;">ECON1626 — Economics of Artificial Intelligence | Assessment 3 | Jackson Gill | RMIT University 2026</p>
   </div>
-</div>
+</section>
 
 <!-- ════════════════════════════════════════════════════════════
      JAVASCRIPT
@@ -611,7 +756,7 @@ const ENDINGS = {
       priya: 'You kept your core finance team and covered 30% of their reskilling costs. Team costs are up marginally on the pure-AI alternative, but your team now handles 40% more work with AI support. You\'re not locked to any platform — when a competitor\'s pricing spiked, you had real alternatives. The board stopped asking about your team headcount.'
     },
     kpiTable: `<div class="chart-box" style="margin-top:20px"><p class="chart-title">Policy KPIs — Upside 2030 targets</p><table class="comparison-table"><thead><tr><th>KPI</th><th>Target</th><th>Baseline (no policy)</th></tr></thead><tbody><tr><td>Displaced workers re-employed at equivalent wage within 24 months</td><td style="color:var(--upside);font-weight:600">60%</td><td style="color:var(--text-muted)">~35%</td></tr><tr><td>Credential completions via reskilling fund (national)</td><td style="color:var(--upside);font-weight:600">48,000</td><td style="color:var(--text-muted)">~8,000 (self-funded)</td></tr><tr><td>Small practice market share vs 2024</td><td style="color:var(--upside);font-weight:600">Stable (±3%)</td><td style="color:var(--text-muted)">−25%</td></tr><tr><td>SME platform switching cost (data portability)</td><td style="color:var(--upside);font-weight:600">Reduced by open APIs</td><td style="color:var(--text-muted)">High — lock-in persists</td></tr></tbody></table></div>`,
-  econ: 'The upside scenario reflects the reinstated task framework operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. This is closer to the Autor et al. productivity-plus-reinstatement scenario than the so-so automation baseline. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption: where gains accumulate to platform incumbents rather than distributing through the market. The productivity effect was strong, and the policy environment ensured the reinstatement effect had the institutional infrastructure to operate.'
+    econ: 'The upside scenario reflects the reinstated task framework operating with institutional support. Reskilling investment created complementary new roles — AI oversight, advisory-support, data analytics — partially offsetting routine task displacement. This is closer to the Autor et al. productivity-plus-reinstatement scenario than the so-so automation baseline. Open API mandates prevented the compounding concentration dynamic Acemoglu &amp; Restrepo identify as the secondary cost of AI adoption: where gains accumulate to platform incumbents rather than distributing through the market. The productivity effect was strong, and the policy environment ensured the reinstatement effect had the institutional infrastructure to operate.'
   },
   baseline: {
     key: 'baseline', title: 'Baseline 2030', cssClass: 'ending-baseline', colorVar: 'var(--baseline)',
@@ -660,12 +805,98 @@ const WORLDS_COMPARE = [
 
 const state = { character: null, ch1: null, ch2: null, ch3: null, score: 0, charts: {} };
 
-// ═══ NAVIGATION ══════════════════════════════════════════════════════════════
+// ═══ SECTION REVEAL ══════════════════════════════════════════════════════════
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function revealSection(id, afterReveal) {
+  const el = document.getElementById(id);
+  el.classList.add('revealed');
+  // Scroll to the newly revealed section after a tick so layout has settled
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (afterReveal) setTimeout(afterReveal, 120);
+    }, 60);
+  });
+}
+
+// ═══ MACRO DASHBOARD ═════════════════════════════════════════════════════════
+
+function updateDashboard() {
+  const c = state.character ? CHARS[state.character] : null;
+
+  // Character
+  document.getElementById('md-icon').textContent   = c ? c.icon : '—';
+  document.getElementById('md-name').textContent   = c ? c.name : 'Choose a character';
+  document.getElementById('md-name').style.color   = c ? c.accent : 'var(--text-muted)';
+  document.getElementById('md-persp').textContent  = c ? c.perspective : '';
+
+  // Chapter choice labels
+  const ch1Labels = { A: 'Fast-track', B: 'Wait & see', null: 'Pending…' };
+  const ch2Labels = { A: 'Reskilling Fund', B: 'Market-led', C: 'No response', null: 'Pending…' };
+  const ch3Labels = { A: 'Open APIs', B: 'Consolidate', null: 'Pending…' };
+
+  const ch1El = document.getElementById('md-ch1-val');
+  const ch2El = document.getElementById('md-ch2-val');
+  const ch3El = document.getElementById('md-ch3-val');
+
+  ch1El.textContent = ch1Labels[state.ch1] || 'Pending…';
+  ch1El.className   = 'md-ch-val' + (state.ch1 ? ' done' : '');
+  ch2El.textContent = ch2Labels[state.ch2] || 'Pending…';
+  ch2El.className   = 'md-ch-val' + (state.ch2 ? ' done' : '');
+  ch3El.textContent = ch3Labels[state.ch3] || 'Pending…';
+  ch3El.className   = 'md-ch-val' + (state.ch3 ? ' done' : '');
+
+  // Score dots
+  document.getElementById('md-score-num').textContent = state.score;
+  [1,2,3].forEach(n => {
+    document.getElementById(`md-d${n}`).classList.toggle('active', state.score >= n);
+  });
+
+  // Trajectory
+  const made = [state.ch1, state.ch2, state.ch3].filter(Boolean).length;
+  const maxPossible = state.score + (3 - made);
+  const trajEl = document.getElementById('md-traj');
+
+  if (!c) {
+    trajEl.textContent = '— Select a character';
+    trajEl.style.color = 'var(--text-muted)';
+  } else if (made === 0) {
+    trajEl.textContent = '— In progress';
+    trajEl.style.color = 'var(--text-muted)';
+  } else if (state.score >= 2) {
+    trajEl.textContent = '▲ Upside likely';
+    trajEl.style.color = 'var(--upside)';
+  } else if (maxPossible < 2) {
+    trajEl.textContent = '▼ Downside likely';
+    trajEl.style.color = 'var(--downside)';
+  } else {
+    trajEl.textContent = '→ Baseline track';
+    trajEl.style.color = 'var(--baseline)';
+  }
+
+  // Displacement projection (tightens as choices lock in)
+  const dispMap = { 0: '−35%', 1: '−20%', 2: '−12%', 3: '−10%' };
+  const dispEl = document.getElementById('md-disp');
+  if (made === 0) {
+    dispEl.textContent = '−10–35%';
+    dispEl.style.color = 'var(--text-muted)';
+  } else {
+    dispEl.textContent = dispMap[state.score];
+    dispEl.style.color = state.score >= 2 ? 'var(--upside)' : state.score === 1 ? 'var(--baseline)' : 'var(--downside)';
+  }
+
+  // Concentration
+  const concEl = document.getElementById('md-conc');
+  if (!state.ch3) {
+    concEl.textContent = '—';
+    concEl.style.color = 'var(--text-muted)';
+  } else if (state.ch3 === 'A') {
+    concEl.textContent = 'Controlled';
+    concEl.style.color = 'var(--upside)';
+  } else {
+    concEl.textContent = 'High';
+    concEl.style.color = 'var(--downside)';
+  }
 }
 
 // ═══ INIT — BUILD CHARACTER GRID ═════════════════════════════════════════════
@@ -696,6 +927,8 @@ function buildCharGrid() {
 
 function selectChar(id) {
   state.character = id;
+  document.body.classList.add('story-active');
+
   const c = CHARS[id];
   const intro = document.getElementById('prologue-intro');
   intro.style.borderLeftColor = c.accent;
@@ -707,8 +940,9 @@ function selectChar(id) {
       <div class="char-intro-note">${c.note}</div>
     </div>
   `;
-  showScreen('screen-prologue');
-  buildTaskChart();
+
+  updateDashboard();
+  revealSection('sec-prologue', buildTaskChart);
 }
 
 // ═══ CHAPTER RENDERING ═══════════════════════════════════════════════════════
@@ -718,7 +952,7 @@ function renderCh1() {
   document.getElementById('ch1-narrative').innerHTML = CH1.narratives[c];
   document.getElementById('ch1-question').textContent = CH1.question[c];
   document.getElementById('ch1-qsub').textContent = CH1.qsub;
-  buildChoices('ch1-choices', [CH1.choiceA, CH1.choiceB], (choice) => makeChoice(1, choice));
+  buildChoices('ch1-choices', [CH1.choiceA, CH1.choiceB], (choice, idx, cid) => makeChoice(1, choice, idx, cid));
 }
 
 function renderCh2() {
@@ -731,7 +965,7 @@ function renderCh2() {
   if (fast) { statEl.textContent = '−14%'; statEl.style.color = 'var(--downside)'; }
   else { statEl.textContent = '−8%'; statEl.style.color = 'var(--accent)'; }
   document.getElementById('ch2-chart-label').textContent = fast ? '(fast-track adoption)' : '(gradual adoption)';
-  buildChoices('ch2-choices', [CH2.choiceA, CH2.choiceB, CH2.choiceC], (choice) => makeChoice(2, choice));
+  buildChoices('ch2-choices', [CH2.choiceA, CH2.choiceB, CH2.choiceC], (choice, idx, cid) => makeChoice(2, choice, idx, cid));
 }
 
 function renderCh3() {
@@ -739,14 +973,13 @@ function renderCh3() {
   document.getElementById('ch3-narrative').innerHTML = CH3.narratives[c];
   document.getElementById('ch3-question').textContent = CH3.question[c];
   document.getElementById('ch3-qsub').textContent = CH3.qsub;
-  buildChoices('ch3-choices', [CH3.choiceA, CH3.choiceB], (choice) => makeChoice(3, choice));
+  buildChoices('ch3-choices', [CH3.choiceA, CH3.choiceB], (choice, idx, cid) => makeChoice(3, choice, idx, cid));
 }
 
 function populateCharBar(barId) {
   const el = document.getElementById(barId);
   if (!el || !state.character) return;
   const c = CHARS[state.character];
-  const choices = [state.ch1, state.ch2, state.ch3].filter(Boolean);
   el.innerHTML = `
     <span class="char-bar-icon">${c.icon}</span>
     <div><span class="char-bar-name" style="color:${c.accent}">${c.name}</span> <span class="char-bar-role">— ${c.role}</span></div>
@@ -761,27 +994,58 @@ function buildChoices(containerId, choices, onSelect) {
     const btn = document.createElement('button');
     btn.className = 'choice-btn';
     btn.innerHTML = `<div class="choice-label">${ch.label}</div><div class="choice-text">${ch.text}</div><div class="choice-sub">${ch.sub}</div>`;
-    btn.addEventListener('click', () => onSelect(String.fromCharCode(65 + i)));
+    btn.addEventListener('click', () => onSelect(String.fromCharCode(65 + i), i, containerId));
     el.appendChild(btn);
   });
 }
 
+// ═══ CHOICE LOCK-IN ══════════════════════════════════════════════════════════
+
+function lockInChoice(containerId, chosenIndex) {
+  const container = document.getElementById(containerId);
+  const buttons = container.querySelectorAll('.choice-btn');
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    btn.classList.add(i === chosenIndex ? 'choice-chosen' : 'choice-rejected');
+  });
+  const hint = document.createElement('div');
+  hint.className = 'continue-hint';
+  hint.innerHTML = '↓ Loading next section…';
+  container.insertAdjacentElement('afterend', hint);
+}
+
 // ═══ CHOICE LOGIC ════════════════════════════════════════════════════════════
 
-function makeChoice(chapter, choice) {
+function makeChoice(chapter, choice, choiceIndex, containerId) {
+  lockInChoice(containerId, choiceIndex);
   state[`ch${chapter}`] = choice;
   if (chapter === 1 && choice === 'A') state.score++;
   if (chapter === 2 && choice === 'A') state.score++;
   if (chapter === 3 && choice === 'A') state.score++;
-  if (chapter < 3) showChapter(chapter + 1);
-  else renderEnding();
+
+  updateDashboard();
+
+  // Slight delay lets the lock-in animation register before the next section scrolls in
+  setTimeout(() => {
+    if (chapter < 3) showChapter(chapter + 1);
+    else renderEnding();
+  }, 500);
 }
 
 function showChapter(num) {
-  showScreen(`screen-ch${num}`);
-  if (num === 1) { populateCharBar('ch1-charbar'); renderCh1(); buildTimelineChart(); }
-  if (num === 2) { populateCharBar('ch2-charbar'); renderCh2(); buildEmploymentChart(); }
-  if (num === 3) { populateCharBar('ch3-charbar'); renderCh3(); buildMarketChart(); }
+  if (num === 1) {
+    populateCharBar('ch1-charbar');
+    renderCh1();
+    revealSection('sec-ch1', buildTimelineChart);
+  } else if (num === 2) {
+    populateCharBar('ch2-charbar');
+    renderCh2();
+    revealSection('sec-ch2', buildEmploymentChart);
+  } else if (num === 3) {
+    populateCharBar('ch3-charbar');
+    renderCh3();
+    revealSection('sec-ch3', buildMarketChart);
+  }
 }
 
 // ═══ ENDING ══════════════════════════════════════════════════════════════════
@@ -812,7 +1076,7 @@ function renderEnding() {
 
   const tableRows = WORLDS_COMPARE.map(row => {
     const isU = endKey === 'upside', isB = endKey === 'baseline', isD = endKey === 'downside';
-    return `<tr class="${endKey === 'upside' ? 'current-ending' : ''}">
+    return `<tr${isU||isB||isD ? ' class="current-ending"' : ''}>
       <td style="color:var(--text-muted)">${row.metric}</td>
       <td style="color:var(--upside);font-weight:${isU?700:400}">${row.upside}${isU?' ◀':''}</td>
       <td style="color:var(--baseline);font-weight:${isB?700:400}">${row.baseline}${isB?' ◀':''}</td>
@@ -884,8 +1148,7 @@ function renderEnding() {
     </div>
   `;
 
-  showScreen('screen-ending');
-  buildEndingChart(endKey);
+  revealSection('sec-ending', () => buildEndingChart(endKey));
 }
 
 // ═══ CHARTS ══════════════════════════════════════════════════════════════════
@@ -953,8 +1216,8 @@ function buildEmploymentChart() {
     data: {
       labels: yrs,
       datasets: [
-        { label: 'Bookkeepers',             data: fast ? [100,87,75,66,60,57,56] : [100,93,86,80,76,73,71], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'Junior accountants',      data: fast ? [100,92,83,75,71,69,68] : [100,95,89,84,81,79,77], borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 3 },
+        { label: 'Bookkeepers',              data: fast ? [100,87,75,66,60,57,56] : [100,93,86,80,76,73,71], borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.08)', tension: 0.4, fill: true, pointRadius: 3 },
+        { label: 'Junior accountants',       data: fast ? [100,92,83,75,71,69,68] : [100,95,89,84,81,79,77], borderColor: '#f59e0b', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 3 },
         { label: 'Senior advisors/partners', data: fast ? [100,104,108,112,116,118,120] : [100,102,105,107,109,110,111], borderColor: '#10b981', backgroundColor: 'transparent', tension: 0.4, fill: false, pointRadius: 3 }
       ]
     },
@@ -975,9 +1238,9 @@ function buildMarketChart() {
     data: {
       labels: ['Big 4 firms','Mid-tier practices','Small practices','AI platforms'],
       datasets: [
-        { label: '2024 (actual)',              data: [35, 30, 25, 10], backgroundColor: 'rgba(156,163,175,0.45)', borderRadius: 5 },
-        { label: '2030 — no intervention',     data: [44, 14,  7, 35], backgroundColor: 'rgba(239,68,68,0.5)',   borderRadius: 5 },
-        { label: '2030 — with open API mandate', data: [40, 22, 20, 18], backgroundColor: 'rgba(16,185,129,0.5)', borderRadius: 5 }
+        { label: '2024 (actual)',               data: [35, 30, 25, 10], backgroundColor: 'rgba(156,163,175,0.45)', borderRadius: 5 },
+        { label: '2030 — no intervention',      data: [44, 14,  7, 35], backgroundColor: 'rgba(239,68,68,0.5)',   borderRadius: 5 },
+        { label: '2030 — with open API mandate',data: [40, 22, 20, 18], backgroundColor: 'rgba(16,185,129,0.5)', borderRadius: 5 }
       ]
     },
     options: { responsive: true, ...CHART_DEFAULTS,
@@ -994,7 +1257,6 @@ function buildEndingChart(endKey) {
   const ctx = document.getElementById('chart-ending');
   if (!ctx) return;
   const yrs = ['2024','2025','2026','2027','2028','2029','2030'];
-  const width = endKey === 'upside' ? 3 : 1.5;
   const datasets = [
     { label: 'Upside',   data: [100,95,92,89,88,89,90], borderColor: '#10b981', tension: 0.4, fill: false, pointRadius: 3, borderWidth: endKey === 'upside'   ? 3 : 1.5 },
     { label: 'Baseline', data: [100,92,85,79,76,77,80], borderColor: '#3b82f6', tension: 0.4, fill: false, pointRadius: 3, borderWidth: endKey === 'baseline' ? 3 : 1.5 },
@@ -1017,12 +1279,19 @@ function buildEndingChart(endKey) {
 function restart() {
   state.character = null; state.ch1 = null; state.ch2 = null; state.ch3 = null; state.score = 0;
   Object.keys(state.charts).forEach(k => { if (state.charts[k]) { try { state.charts[k].destroy(); } catch(e){} state.charts[k] = null; } });
-  showScreen('screen-character-select');
+
+  // Re-lock all story sections
+  document.querySelectorAll('.story-section').forEach(s => s.classList.remove('revealed'));
+
+  document.body.classList.remove('story-active');
+  updateDashboard();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ═══ INIT ════════════════════════════════════════════════════════════════════
 
 buildCharGrid();
+updateDashboard();
 </script>
 </body>
 </html>
