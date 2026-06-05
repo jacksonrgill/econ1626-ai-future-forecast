@@ -889,6 +889,53 @@ const CHAR_METRICS = {
   ]
 };
 
+// ═══ POLICY PLAYBOOK DATA ════════════════════════════════════════════════════
+
+const PLAYBOOK = {
+  james: {
+    ch1: {
+      A: { lever:'Conditional incentives', action:'AI investment tax credits tied to documented workforce transition plans — firms must show reskilling pathways to qualify', timeline:'Legislation Q1 2025 — Operational Q3 2025', who:'ATO (credit admin), DESE (plan approval)', risk:'Firms submit superficial plans — compliance without substance', mitigation:'Third-party plan audit required; credit clawback if enrolment targets not met within 12 months' },
+      B: { lever:'Unconditional incentives', action:'Fast-track AI adoption credits with no workforce conditions attached — maximum adoption speed', timeline:'Legislation Q1 2025 — Operational Q2 2025', who:'ATO', risk:'Displacement arrives before any safety net is in place', mitigation:'Monitoring trigger: if bookkeeper unemployment >3pp above baseline by Q3 2025, activate emergency displacement fund' }
+    },
+    ch2: {
+      A: { lever:'Levy-funded reskilling program', action:'1.5% levy on AI platform revenue >$50M AUS; funds portable credentials for displaced accounting workers', timeline:'Levy legislation Q2 2025 — Fund operational Q4 2025 — First credentials Q1 2026', who:'ATO (levy collection), DESE (credential design), ACCC (platform compliance)', risk:'Platforms pass levy cost to SME customers via price increases', mitigation:'Price monitoring clause; levy scaled back if competitive HHI metrics improve; capped if HHI rises above 0.65' },
+      B: { lever:'Extended Jobseeker provisions', action:'18-month Jobseeker duration for workers in AI-displaced professional services occupations', timeline:'Regulation change Q2 2025 — Operational Q3 2025', who:'Services Australia, DESE (job plan requirements)', risk:'No structural reskilling — workers re-enter same displaced roles at lower wages', mitigation:'Mandatory reskilling component in job plans for affected occupation codes; review effectiveness at 12 months' }
+    },
+    ch3: {
+      A: { lever:'Mandatory open APIs', action:'Data portability standards, open API requirements for dominant platforms, updated merger review criteria for AI network effects', timeline:'Consultation Q1 2025 — Legislation Q3 2025 — Compliance deadline Q1 2026', who:'ACCC (competition enforcement), DISR (tech standards), Treasury (merger criteria)', risk:'Platforms threaten reduced Australian investment; lobbying delays legislation', mitigation:'Staged compliance timeline; safe harbour for genuine interoperability investment; EU Digital Markets Act as legislative template' },
+      B: { lever:'Voluntary code of practice', action:'Co-designed industry code with non-binding commitments and 3-year review trigger', timeline:'Working group Q1 2025 — Code published Q3 2025', who:'ACCC (facilitation), industry associations, platform representatives', risk:'Code legitimises concentration without constraining it; review trigger delayed by industry resistance', mitigation:'Mandatory escalation clause: if market share exceeds 75% or annual pricing increase >15%, automatic legislative review initiated' }
+    }
+  },
+  sam: {
+    ch1: {
+      A: { lever:'AI oversight repositioning', action:'Positioned as firm\'s AI oversight specialist — catching errors, pitching human-in-the-loop as a formal role category', timeline:'Q3 2024 repositioning — Q1 2025 role formalised', who:'Sam, firm management, compliance team', risk:'Firm restructures before repositioning is recognised in performance review', mitigation:'Document every AI error caught; make oversight value visible to management before the restructure decision' },
+      B: { lever:'Human skills differentiation', action:'Deepened client relationships and complex judgment work; focused on the tasks AI cannot reliably replicate', timeline:'Q3 2024 onwards — ongoing strategic commitment', who:'Sam, key clients, senior partners', risk:'Firm prioritises utilisation rate and billing metrics over client relationship value', mitigation:'Build direct client communication independent of firm billing structure; document complexity of cases handled' }
+    },
+    ch2: {
+      A: { lever:'Reskilling fund enrolment', action:'Enrolled in AI oversight credential via 60-day government-backed application window', timeline:'Q1 2025 enrolment — Q3 2025 credential complete', who:'Sam, DESE (credential), reskilling fund (70% co-funding)', risk:'Credential not recognised by employer; role eliminated before credential is complete', mitigation:'Secure employer written commitment to new role category before enrolling; use fund window as negotiating leverage' },
+      B: { lever:'Hold compliance position', action:'Argued for experienced human review role and stayed in compliance rather than taking the reskilling off-ramp', timeline:'2025 — performance review ongoing', who:'Sam, firm management', risk:'Firm makes restructure decision before Sam\'s case is heard; 60-day window closes', mitigation:'Access reskilling fund independently before the window closes regardless of firm outcome' }
+    },
+    ch3: {
+      A: { lever:'Industry standards contribution', action:'Helped define oversight norms, ethical frameworks, and training standards via AI accounting practitioners network', timeline:'2027 onwards — voluntary long-term commitment', who:'Sam, industry network, CPA Australia, CA ANZ', risk:'Platform interests dominate standards-setting; practitioner voice marginalised at working groups', mitigation:'Build coalitions with other oversight specialists; engage CPA Australia and CA ANZ to formally back the network' },
+      B: { lever:'Individual stability focus', action:'Consolidated existing role and opted out of industry engagement to protect current position', timeline:'2027', who:'Sam', risk:'Liability and oversight standards set without worker input — future standards may work against practitioners', mitigation:'Monitor network outputs; re-engage when standards enter public consultation phase and input is formally solicited' }
+    }
+  },
+  priya: {
+    ch1: {
+      A: { lever:'Hybrid AI adoption', action:'AI as a productivity multiplier — team intact, output expanded, no headcount cut in 2024', timeline:'Q3 2024 rollout — Q1 2025 workflow stabilised', who:'Priya, finance team, software vendor, IT', risk:'Board pressure from competitors showing lower headcount costs in short-term P&L', mitigation:'Quantify institutional knowledge value; document error-prevention cases where team knowledge saved remediation costs' },
+      B: { lever:'Full adoption + restructure', action:'Two roles exited Q2 2024; remaining team repositioned to AI oversight and strategic finance functions', timeline:'Q3 2024 decision — Q1 2025 transition complete', who:'Priya, board, HR, software vendor', risk:'Institutional knowledge gap; hidden costs emerge post-restructure through compliance errors and platform escalation', mitigation:'Document critical knowledge before exits; cap annual platform price increases in vendor contract at signing' }
+    },
+    ch2: {
+      A: { lever:'People investment', action:'Supported all remaining team through AI transition — dedicated training budget, career pathways, mental health check-ins', timeline:'2025 throughout', who:'Priya, HR, finance team', risk:'Slower short-term productivity while team adapts; board questions ROI on investment in people', mitigation:'Track output-per-person metric weekly; present before/after productivity data at quarterly board review' },
+      B: { lever:'Performance management', action:'Set clear AI-era benchmarks; accepted natural attrition from team members who could not adapt at pace', timeline:'2025 Q1 onwards', who:'Priya, HR', risk:'Further knowledge loss through attrition; morale deteriorates; strongest remaining performers exit', mitigation:'Explicitly retain one senior team member regardless of benchmark performance; ring-fence knowledge critical to ATO obligations' }
+    },
+    ch3: {
+      A: { lever:'Collective action + regulatory submission', action:'Threatened credible vendor switch and submitted to government open data standards consultation', timeline:'Q4 2026 submission — 2027 regulatory outcome', who:'Priya, industry associations, Treasury/ACCC consultation', risk:'Submission ignored; collective switching threat fails to materialise; vendor retaliates with service degradation', mitigation:'Coordinate with peer CFOs via industry body before submitting; frame submission around competition law, not pricing grievance' },
+      B: { lever:'Cost absorption', action:'Accepted pricing increase and continued without engaging the government consultation', timeline:'Q4 2026', who:'Priya, board, vendor', risk:'Pricing increases compound annually; captive relationship deepens; no leverage at next renewal', mitigation:'Document true switching costs now so the board understands lock-in; formally review at next contract renewal date' }
+    }
+  }
+};
+
 // ═══ INDUSTRY METRICS (shared across characters — macro context) ══════════
 
 const WORLDS_COMPARE = [
@@ -1196,6 +1243,43 @@ function showChapter(num) {
   if (num === 3) { populateCharBar('ch3-charbar'); renderCh3(); revealSection('sec-ch3', buildCh3Chart); }
 }
 
+// ═══ POLICY PLAYBOOK RENDERER ════════════════════════════════════════════════
+
+function buildPlaybook(c) {
+  const pb = PLAYBOOK[c];
+  if (!pb) return '';
+  const sl = SCORE_LABELS[c];
+  const sc = SCORE_CHAPTERS[c];
+  const chapters = ['ch1','ch2','ch3'];
+  const choices  = [state.ch1, state.ch2, state.ch3];
+  const pbLabel  = c==='james' ? 'Policy Playbook' : c==='priya' ? 'Decision Playbook' : 'Career Playbook';
+
+  const rows = chapters.map((ch, i) => {
+    const d = pb[ch][choices[i]];
+    return `<tr>
+      <td style="white-space:nowrap"><strong style="font-size:0.82rem">${sc[ch]}</strong><br><span style="color:var(--accent);font-size:0.78rem">${sl[ch][choices[i]]}</span></td>
+      <td><strong style="font-size:0.82rem">${d.lever}</strong><br><span style="color:var(--text-muted);font-size:0.8rem">${d.action}</span><br><em style="color:var(--text-muted);font-size:0.75rem;display:block;margin-top:3px">With: ${d.who}</em></td>
+      <td style="font-size:0.8rem;color:var(--text-muted);white-space:nowrap">${d.timeline}</td>
+      <td style="font-size:0.8rem;color:var(--downside)">${d.risk}</td>
+      <td style="font-size:0.8rem;color:var(--text-muted)">${d.mitigation}</td>
+    </tr>`;
+  }).join('');
+
+  return `<span class="section-label" style="margin-top:32px;display:block">${pbLabel} — your decisions formalised</span>
+    <div class="chart-box" style="overflow-x:auto;padding:16px 20px">
+      <table class="comparison-table">
+        <thead><tr>
+          <th>Decision</th>
+          <th>Lever &amp; Action</th>
+          <th>When</th>
+          <th style="color:var(--downside)">Key Risk</th>
+          <th>Mitigation</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
 // ═══ ENDING ═══════════════════════════════════════════════════════════════════
 
 function renderEnding() {
@@ -1258,6 +1342,8 @@ function renderEnding() {
 
     <span class="section-label" style="margin-top:32px;display:block">${char.icon} Your outcome — ${char.name}, ${char.role}</span>
     <div class="char-outcome-box">${e.charOutcomes[c]}</div>
+
+    ${buildPlaybook(c)}
 
     <div class="econ-explainer">
       <h3>What the economics says</h3>
